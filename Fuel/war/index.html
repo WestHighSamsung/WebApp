@@ -60,6 +60,7 @@
           <input type="text" class="form-control" placeholder="Sing like I'm Jah Rule..." id="searchbar">
           <span class="input-group-btn">
             <button class="btn btn-default" type="button" id="search">Search!</button>
+            <button class="btn btn-default" type="button" id="showDirs">Directions?</button>
           </span>
           <div id="panel">
             <b>Mode of Travel: </b>
@@ -70,6 +71,7 @@
               <option value="TRANSIT">Transit</option>
             </select>
           </div>
+
 
         </div><!-- /input-group -->
         <!-- I think we shoudl but an empty div then JS into it to display results. That would be cool.
@@ -119,6 +121,7 @@
         }
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
         directionsDisplay.setMap(map);
+        directionsDisplay.setPanel(document.getElementById('results'));
       }
 
       function calcRoute() {
@@ -145,6 +148,9 @@
       $("#search").click(function(){
         var txt = $("#searchbar").val();
         $("#results").html(txt);
+      });
+      $("#showDirs").click(function(){
+        results.show();
       });
     </script>
 
