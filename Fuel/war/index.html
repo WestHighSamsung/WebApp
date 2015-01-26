@@ -13,9 +13,48 @@
         <!-- <link href="css/styles.css" rel="stylesheet"> -->
    <style type="text/css">
       html, body, #map-canvas { height: 400; margin: 0; padding: 0;}
+       .controls {
+        margin-top: 16px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+      #searchbar {
+        background-color: #fff;
+        padding: 0 11px 0 13px;
+        width: 400px;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        text-overflow: ellipsis;
+      }
+      #searchbar:focus {
+        border-color: #4d90fe;
+        margin-left: -1px;
+        padding-left: 14px;  /* Regular padding-left + 1. */
+        width: 401px;
+      }
+      .pac-container {
+        font-family: Roboto;
+      }
+      #type-selector {
+        color: #fff;
+        background-color: #4d90fe;
+        padding: 5px 11px 0px 11px;
+      }
+
+      #type-selector label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
     </style>
     <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4FU9Dc41yksTNZohn5meSb1N_jj53xQA">
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4FU9Dc41yksTNZohn5meSb1N_jj53xQA&libraries=places">
     </script>
     
 
@@ -57,7 +96,7 @@
       <div class = "jumbotron">
         <h1>Save THE PLANET!</h1>
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Sing like I'm Jah Rule..." id="searchbar">
+          <input type="text" class = "controls" placeholder="Type a location" id="searchbar">
           <span class="input-group-btn">
             <button class="btn btn-default" type="button" id="search">Search!</button>
             <button class="btn btn-default" type="button" id="showDirs">Directions?</button>
@@ -71,61 +110,89 @@
               <option value="TRANSIT">Transit</option>
             </select>
           </div>
-
-
         </div><!-- /input-group -->
-        <!-- I think we shoudl but an empty div then JS into it to display results. That would be cool.
-      -->
       </div>
-       <div id="results">
-      </div>
-      <div id="map-canvas">
-      </div>
+       <div id="results"></div>
+      <div id="map-canvas"></div>
       
     </div>
 
 
-  	</div>
+  </div>
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    
-    <script>
-      
-      
-      
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
-      ga('create', 'UA-55205300-1', 'auto');
-      ga('send', 'pageview');
-
-    </script>
-    <script type="text/javascript">
-      var directionsDisplay;
-      var directionsService = new google.maps.DirectionsService();
+    <!--<script type="text/javascript">
+      //for the purposes of understanding these, I took them out so I can try and make the search bar work for directions
+      // var directionsDisplay;
+      // var directionsService = new google.maps.DirectionsService();
       var map;
       var westhigh = new google.maps.LatLng(40.774534, -111.900473);
       var testLoc = new google.maps.LatLng(40.773055, -111.882215);
-
       function initialize() {
-        directionsDisplay = new google.maps.DirectionsRenderer();
+        var markers = [];
+        //directionsDisplay = new google.maps.DirectionsRenderer();
         var mapOptions = {
           zoom: 14,
-          center: westhigh
+          center: westhigh,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
         }
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-        directionsDisplay.setMap(map);
-        directionsDisplay.setPanel(document.getElementById('results'));
+
+        var input = $('#searchbar')[0];
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        var searchBox = new google.maps.places.SearchBox(input);
+
+        google.maps.event.addListener(searchBox, 'places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+          for (var i = 0, marker; marker = markers[i]; i++) {
+            marker.setMap(null);
+          }
+
+          // For each place, get the icon, place name, and location.
+          markers = [];
+          var bounds = new google.maps.LatLngBounds();
+          for (var i = 0, place; place = places[i]; i++) {
+            var image = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            var marker = new google.maps.Marker({
+              map: map,
+              icon: image,
+              title: place.name,
+              position: place.geometry.location
+            });
+
+            markers.push(marker);
+
+            bounds.extend(place.geometry.location);
+          }
+          map.fitBounds(bounds);
+
+        });
+
+        google.maps.event.addListener(map, 'bounds_changed', function() {
+          var bounds = map.getBounds();
+          searchBox.setBounds(bounds);
+        });
       }
 
       function calcRoute() {
-        var selectedMode = document.getElementById('mode').value;
+        var selectedMode = $('#mode')[0].value;
         var request = {
             origin: westhigh,
             destination: testLoc,
@@ -142,17 +209,85 @@
       }
 
       google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
+    </script>-->
+    <script type="text/javascript">
+      function initialize() {
+        var markers = [];
+        var westhigh = new google.maps.LatLng(40.774534, -111.900473);
+        var map = new google.maps.Map($('#map-canvas')[0], {
+          mapTypeId: google.maps.MapTypeId.ROADMAP, 
+          center: westhigh,
+          zoom: 15
+        });
 
+        // Create the search box and link it to the UI element.
+        var input =($('#searchbar')[0]);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        var searchBox = new google.maps.places.Autocomplete(
+          /** @type {HTMLInputElement} */(input));
+
+        // [START region_getplaces]
+        // Listen for the event fired when the user selects an item from the
+        // pick list. Retrieve the matching places for that item.
+        google.maps.event.addListener(searchBox, 'place_changed', function() {
+          var place = searchBox.getPlace();
+
+          // if (places.length == 0) {
+          //   return;
+          // }
+          for (var i = 0, marker; marker = markers[i]; i++) {
+            marker.setMap(null);
+          }
+
+          // For each place, get the icon, place name, and location.
+          markers = [];
+          var bounds = new google.maps.LatLngBounds();
+          //for (var i = 0, place; place = places[i]; i++) {
+            var image = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            var marker = new google.maps.Marker({
+              map: map,
+              icon: image,
+              title: place.name,
+              position: place.geometry.location
+            });
+
+            markers.push(marker);
+
+            bounds.extend(place.geometry.location);
+          //}
+
+          map.fitBounds(bounds);
+        });
+        // [END region_getplaces]
+
+        // Bias the SearchBox results towards places that are within the bounds of the
+        // current map's viewport.
+        google.maps.event.addListener(map, 'bounds_changed', function() {
+          var bounds = map.getBounds();
+          searchBox.setBounds(bounds);
+        });
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
     <script type="text/javascript">
       $("#search").click(function(){
         var txt = $("#searchbar").val();
         $("#results").html(txt);
       });
       $("#showDirs").click(function(){
-        results.show();
+        $("#results").show();
       });
     </script>
-
   </body>
 </html>
