@@ -1,2 +1,0 @@
-eclipse.preferences.version=1
-runtimes=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<runtimes>\n  <runtime gae-sdk-name\="appengine-java-sdk-1.9.17" gae-sdk-version\="1.9.17" id\="Google App Engine" location\="/home/philkuz/Programming/JavaLibs/appengine-java-sdk/appengine-java-sdk-1.9.17" name\="Google App Engine" runtime-type-id\="com.google.appengine.runtime.id1" timestamp\="0"/>\n</runtimes>\n
