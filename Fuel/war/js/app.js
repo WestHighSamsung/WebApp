@@ -11,6 +11,7 @@ App.IndexRoute = Ember.Route.extend({
 });
 
 
+
 //Page logic
   $("#search").click(function(){
     var txt = $("#searchbar").val();
@@ -19,6 +20,7 @@ App.IndexRoute = Ember.Route.extend({
   $("#showDirs").click(function(){
     $("#results").show();
   });
+
 
 
 ///Google maps API
@@ -91,7 +93,7 @@ App.IndexRoute = Ember.Route.extend({
             if (status == google.maps.DirectionsStatus.OK) {
               directionsDisplay.setDirections(response);
             }
-          )};
+          })
         });
         // [END region_getplaces]
 
