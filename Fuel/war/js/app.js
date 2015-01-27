@@ -13,14 +13,13 @@ App = Ember.Application.create();
 
 
 ///Google maps API
- var directionsDisplay;
-    var directionsService = google.maps.DirectionsService();
+    var directionsDisplay;
+    var directionsService;
     var westhigh = new google.maps.LatLng(40.774534, -111.900473);
     var testLoc = new google.maps.LatLng(40.773055, -111.882215);
       
       function initialize() {
-        //var markers = [];
-       
+        //var markers = [];   
         directionsDisplay = new google.maps.DirectionsRenderer();
         var map = new google.maps.Map($('#map-canvas')[0], {
           mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -33,7 +32,7 @@ App = Ember.Application.create();
         // Create the search box and link it to the UI element.
         var input =($('#searchbar')[0]);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
+                                                                                              d
         var searchBox = new google.maps.places.Autocomplete(input);
         directionsDisplay.setMap(map);
         google.maps.event.addListener(searchBox, 'place_changed', function() {
@@ -60,7 +59,7 @@ App = Ember.Application.create();
           // };
 
           // // Create a marker for each place.
-          // var marker = new google.maps.Marker({
+          // var marker = new google.map-canvas.Marker({
           //   map: map,
           //   icon: image,
           //   title: place.name,
@@ -77,6 +76,7 @@ App = Ember.Application.create();
             destination: westhigh,
             travelMode: google.maps.TravelMode.DRIVING
           };
+          var directionsService = google.maps.DirectionsService();
           directionsService.route(request, function(response, status) {
             $("#results").html("does display");
             if (status == google.maps.DirectionsStatus.OK) {
