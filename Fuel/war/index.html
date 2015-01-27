@@ -12,6 +12,24 @@
     </script>
   </head>
   <body>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1536032630009134',
+        xfbml      : true,
+        version    : 'v2.2'
+      });
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
+
 
     <!-- THEW PAGE TEMPALTE U STUPID-->
     <script type="text/x-handlebars">
@@ -38,8 +56,8 @@
           </div>
         </div>
 
-        {{outlet}}
-    </script>
+        {{outlet}
+}    </script>
 
     <!-- THE FRONT PAGE -->
     <script type="text/x-handlebars" id="index">
@@ -59,6 +77,13 @@
         </div>
     </script>
 
+      <script type="text/x-handlebars" id="landing">
+        <div class="container">
+          <div class = "jumbotron">
+            <h1>Landing page!</h1>
+          </div>
+        </div>
+    </script>
 
 
     <!-- THE ABOUT PAGE U DUMB -->

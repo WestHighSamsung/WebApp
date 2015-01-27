@@ -2,14 +2,19 @@ App = Ember.Application.create();
 
 App.Router.map(function() {
   // put your routes here
+  this.route('index');
 });
 
 App.IndexRoute = Ember.Route.extend({
-  model: function() {
-    return ['red', 'yellow', 'blue'];
-  }
+	model: function(){
+		return this.store.find("shit");
+	}
 });
 
+
+App.IndexController = Ember.Controller.extend(
+	appName: 'Fucker';
+});
 
 
 //Page logic
