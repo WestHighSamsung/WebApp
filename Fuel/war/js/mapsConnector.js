@@ -1,4 +1,3 @@
- var directionsDisplay;
       var directionsService = new google.maps.DirectionsService();
       var map;
       var westhigh = new google.maps.LatLng(40.774534, -111.900473);
@@ -14,27 +13,35 @@
           westhigh,
           testLoc);
         map.fitBounds(defaultBounds);
-        directionsDisplay.setMap(map);
         var input =($('#searchbar')[0]);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
         var searchBox = new google.maps.places.Autocomplete(input);
 
          google.maps.event.addListener(searchBox, 'place_changed', function() {
           var place = searchBox.getPlace();
-          calcRoute(place.geometry.location);
+          calcRoute(place.geometry.location, "DRIVING");
+          calcRoute(place.geometry.location, "BICYCLING");
         });
         google.maps.event.addListener(map, 'bounds_changed', function() {
           var bounds = map.getBounds();
           searchBox.setBounds(bounds);
         });
       }
-      function calcRoute(place) {
+      function calcRoute(place, transType) {
+      	var directionsDisplay = new google.maps.DirectionsRenderer();
+      	directionsDisplay.setMap(map);
         var request = {
             origin: place,
             destination: westhigh,
-            travelMode: google.maps.TravelMode.DRIVING
+            travelMode: google.maps.TravelMode[transType]
         };
         directionsService.route(request, function(response, status) {
+        	if(transType === "DRIVING") {
+        		console.log("Carbon Emissions of Driving");
+        		console.log(response.routes[0].legs[0].distance.value/1609.34*430);
+
+        	}
+          
           if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
           }
