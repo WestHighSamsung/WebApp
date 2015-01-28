@@ -2,8 +2,7 @@
 .ember-application {
     margin: 20px;
 }
-
-  html, body, #map-canvas { height: 400; margin: 0; padding: 0;}
+  #map-canvas { height: 400; margin: 0; padding: 0;}
    .controls {
     margin-top: 16px;
     border: 1px solid transparent;

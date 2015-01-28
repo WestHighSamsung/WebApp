@@ -1,12 +1,11 @@
 App = Ember.Application.create();
 
-
-//Page logic
-  $("#search").click(function(){
-    var txt = $("#searchbar").val();
-    $("#results").html(txt);
-  });
-  $("#showDirs").click(function(){
-    $("#results").show();
-  });
+App.Router.map(function(){
+	this.resource('index', {path:'/'}, function(){
+		this.route('carbon');
+		this.route('carpool');
+	});
+	this.resource('login');
+	this.resource('about')
+});
 
