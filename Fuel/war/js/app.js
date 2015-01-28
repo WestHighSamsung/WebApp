@@ -1,4 +1,15 @@
 App = Ember.Application.create();
+
+App.Router.map(function(){
+	this.resource('index', {path:'/'}, function(){
+		this.route('carbon');
+		this.route('carpool');
+	});
+	this.resource('login');
+	this.resource('about')
+});
+
+
 App.GoogleMapsComponent  = Ember.Component.extend({
 	insertMap: function() {
 		var directionsService = new google.maps.DirectionsService();

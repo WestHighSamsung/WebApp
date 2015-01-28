@@ -55,23 +55,30 @@
               </span>
             </div><!-- /input-group -->
           </div>
-           <div id="results"></div>
-          
-          <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-          </fb:login-button>
 
-          <div id="status">
-          </div>
-          
+          <!--This is where carbon, carpool and login go. type deal in here.-->
+          {{outlet}}
         </div>
     </script>
 
-      <script type="text/x-handlebars" id="landing">
-        <div class="container">
-          <div class = "jumbotron">
-            <h1>Landing page!</h1>
-          </div>
-        </div>
+
+
+    <!-- Put the map canvas and the list here.-->
+    <scirpt type="text/x-handlebars" id="index/carbon">
+           <div id="map-canvas"></div>
+    </scirpt>
+
+    <!-- Put all carpool stuff here -->
+    <script type="text/x-handlebars" id="index/carpool">
+
+        
+    </script>
+
+    <script type="text/x-handlebars" id="login">
+          <div id="status">
+          </div> 
+          <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+          </fb:login-button>
     </script>
 
     <script type = "text/x-handlebars" id="components/google-maps">
@@ -93,8 +100,8 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="js/handlebars-v2.0.0.js"></script>
-    <script src="js/ember-1.9.1.js"></script>
     <script src="js/mapsConnector.js"></script>
+    <script src="js/ember-1.9.1.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>
