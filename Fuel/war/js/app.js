@@ -32,11 +32,10 @@ App = Ember.Application.create();
         // Create the search box and link it to the UI element.
         var input =($('#searchbar')[0]);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-                                                                                              d
         var searchBox = new google.maps.places.Autocomplete(input);
         directionsDisplay.setMap(map);
         google.maps.event.addListener(searchBox, 'place_changed', function() {
-        var place = searchBox.getPlace();
+         var place = searchBox.getPlace();
 
           // if (places.length == 0) {
           //   return;
