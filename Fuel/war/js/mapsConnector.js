@@ -17,7 +17,6 @@ function RouteClass(route) {
   this.values[2] = this.values[0]/1609.34*430;
 }
 RouteClass.routes = {};
-console.log(RouteClass.routes);
 RouteClass.hasRoutes = false;
 RouteClass.transTypes = ['DRIVING','WALKING','BICYCLING', 'TRANSIT'];
 //function takes the starting location and transportation type and outputs a route object
@@ -26,25 +25,26 @@ function calcRoute(place, transType, directionsService, map){
       origin: place,
       destination: westhigh,
       travelMode: google.maps.TravelMode[transType]
-  }
-  
+  };
   directionsService.route(request, function(response, status) {
     var trans = RouteClass.transTypes;
-  
+    RouteClass.hasRoutes = true;        
+    RouteClass.routes[transType] = response;
+    displayMap(map, response, status);
+    //unnecessary stuff
     //only runs successfully onse
-    for(i = 0; i < trans.length; i++) { 
-      if(transType == trans[i]) { 
-        RouteClass.hasRoutes = true;        
-        RouteClass.routes[transType] = response;
-        break;//doesn't need to keep searching after it has been found.
-      }
-    }
+    // for(i = 0; i < trans.length; i++) { 
+    //   if(transType == trans[i]) { 
+    //     RouteClass.hasRoutes = true;        
+    //     RouteClass.routes[transType] = response;
+    //     break;//doesn't need to keep searching after it has been found.
+    //   }
+    // }
   });
   //this updates everytime to update the static route storage.
 
 }
 function displayMap(map, route, status) {
-  console.log("displayMap()");
   var directionsDisplay = new google.maps.DirectionsRenderer();
   directionsDisplay.setMap(map);
   if (status == google.maps.DirectionsStatus.OK) {
