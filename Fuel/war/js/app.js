@@ -9,21 +9,30 @@ App.Router.map(function(){
 	this.resource('about')
 });
 
-// App.GoogleMapsComponent = Ember.Component.extend({
-//   insertMap: function() {
-//     var container = this.$(".map-canvas");
-
-//     var options = {
-//       center: new google.maps.LatLng(this.get("latitude"),
-// this.get("longitude")),
-//       zoom: 17,
-//       mapTypeId: google.maps.MapTypeId.ROADMAP
-//     };
-
-//     new google.maps.Map(container[0], options);
-//   }.on('didInsertElement')
-// });
-
+//needs to contain an array of arrays. Each sub array is a different mode.
+App.CarbonTableComponent = Ember.Component.extend({
+  trap: function() {
+    var container = this.$("#table-data");
+    var output = "";
+    //makes sure to check that it has routes
+    if(RouteClass.hasRoutes){
+      //this is the routes for different types of transports.
+      var routes = MapClass.routes;
+      //this will construct the table
+      output += "\n<tr>";
+      
+      for(i = 0; i < transitType.length; i++){
+        var routeInfo = new RouteClass(routes[i]);
+        for(j = 0; j < routeInfo.values.length; j++){
+          output += "\n<td>"+routeInfo.values[j]+"</td>";  
+        }
+        
+      }
+      output +="\n</tr>";
+      container.html(output);
+    }
+  }
+});
 
 App.GoogleMapsComponent = Ember.Component.extend({
 	insertMap: function() {
@@ -49,8 +58,14 @@ App.GoogleMapsComponent = Ember.Component.extend({
 
     google.maps.event.addListener(searchBox, 'place_changed', function() {
       var place = searchBox.getPlace();
-      console.log(calcRoute(place.geometry.location, "DRIVING", directionsService, map));
-      console.(calcRoute(place.geometry.location, "BICYCLING", directionsService, map));
+      var transTypes = RouteClass.transTypes;//ease
+      //array for the different modes of travel
+      var routes;
+      //currently saves then displays map.
+      for(j = 0; j < transTypes.length; j++){
+        routes.push(calcRoute(place.geometry.location, transTypes[j], directionsService, map));
+        displayMap(map, routes[j]);
+      }
     });
     google.maps.event.addListener(map, 'bounds_changed', function() {
       var bounds = map.getBounds();

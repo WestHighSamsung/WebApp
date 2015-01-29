@@ -55,7 +55,8 @@
               </span>
             </div><!-- /input-group -->
           </div>
-              {{google-maps latitude="40.7142700" longitude="-74.0059700"}}
+          {{google-maps}}
+          {{carbon-table}}
           <!--This is where carbon, carpool and login go. type deal in here.-->
           {{outlet}}
         </div>
@@ -84,6 +85,11 @@
     <script type="text/x-handlebars" id="components/google-maps">
       <div class="map-canvas"></div>
     </script>
+    <script type="text/x-handlebars" id="components/carbon-table">
+      <table id="table-data">
+      </table>
+    </script>
+
     <!-- THE ABOUT PAGE U DUMB -->
         <!-- THE FRONT PAGE -->
     <script type="text/x-handlebars" id="about">
