@@ -38,19 +38,14 @@ App.GoogleMapsComponent = Ember.Component.extend({
 	insertMap: function() {
 		var container = this.$(".map-canvas");
 		var directionsService = new google.maps.DirectionsService();
-  	var map;
   	var westhigh = new google.maps.LatLng(40.774534, -111.900473);
   	var testLoc = new google.maps.LatLng(40.773055, -111.882215);
-		
-		directionsDisplay = new google.maps.DirectionsRenderer();
     var mapOptions = {
       zoom: 14,
       center: westhigh
     }
-    map = new google.maps.Map(container[0], mapOptions);
-    var defaultBounds = new google.maps.LatLngBounds(
-      westhigh,
-      testLoc);
+    var map = new google.maps.Map(container[0], mapOptions);
+    var defaultBounds = new google.maps.LatLngBounds(westhigh, testLoc);
     map.fitBounds(defaultBounds);
     var input =($('#searchbar')[0]);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -60,11 +55,22 @@ App.GoogleMapsComponent = Ember.Component.extend({
       var place = searchBox.getPlace();
       var transTypes = RouteClass.transTypes;//ease
       //array for the different modes of travel
-      var routes;
+      var routes = [];
       //currently saves then displays map.
       for(j = 0; j < transTypes.length; j++){
-        routes.push(calcRoute(place.geometry.location, transTypes[j], directionsService, map));
-        displayMap(map, routes[j]);
+        console.log("GoogleMapsComponent");
+        var route = calcRoute(place.geometry.location, transTypes[j], directionsService, map);
+        // if(!route){
+        //   console.log("route ====");
+        //   j--;
+        //   continue;
+        // }
+        routes.push(route);        
+      }
+      routes = RouteClass.routes;
+      for(i = 0; i < transTypes.length; i++){
+        console.log(routes[i]);
+        // displayMap(map);
       }
     });
     google.maps.event.addListener(map, 'bounds_changed', function() {
