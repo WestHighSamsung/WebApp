@@ -16,11 +16,12 @@ function RouteClass(route) {
   }
   this.values[2] = this.values[0]/1609.34*430;
 }
+
 RouteClass.routes = new Array(4);
 RouteClass.hasRoutes = false;
-RouteClass.transTypes = ['DRIVING','WALKING','BICYCLING', 'TRANSIT'];
+RouteClass.transTypes = ['WALKING','BICYCLING', 'TRANSIT','DRIVING'];
 //function takes the starting location and transportation type and outputs a route object
-function calcRoute(place, transType){ 
+function calcRoute(place, transType) { 
   var request = {
       origin: place,
       destination: westhigh,
@@ -41,6 +42,58 @@ function calcRoute(place, transType){
   }
   return routeRe;
 }
+
+//function returns the recommended method/s of transportation
+function recommendTransType(place) {
+  var recommendedTypes = new Array();
+  var durationByType = new Array(4); //0 -> WALKING, 1 -> BICYCLING, 2 -> TRANSIT, 3 -> DRIVING
+
+  for(i = 0; i < RouteClass.transTypes.length; i++) {
+    var request = {
+      origin: place,
+      destination: westhigh,
+      travelMode: google.maps.TravelMode[RouteClass.transTypes[i]]
+    }
+
+    //get the recommended route
+    var routeRe;
+    directionsServ.route(request, function(response, status) {
+      routeRe = response;
+    });
+
+    // routeRe -> routes (Array.<DirectionsRoute>) -> legs (Array.<DirectionsLeg>) -> duration
+    var duration = 0;
+    for(i = 0; i < routeLegs.length; i++)
+      duration += routeRe.routes[0].legs[i].duration;
+    duration /= 60; //convert from seconds to minutes
+
+    durationByType[i] = duration;
+  }
+
+  //if it is walkable in 15 min, walk
+  if(durationByType[0] <= 15)
+    recommendedTypes.push('WALKING');
+  //if it can't be walked in 10 min and is bikable in under 30 mim, bike
+  if(durationByType[1] <= 30 && durationByType[0] > 10)
+    recommendedTypes.push('BICYCLING');
+  //if it can't be biked in 30 min and is reachable in under 60 min by transit, transit
+  //or if it is not bikable in 30 min and transit is within 15 min or faster than driving
+  if(durationByType[1] > 30 && durationByType[2] <= 60)
+    recommendedTypes.push('TRANSIT');
+  else if(durationByType[1] > 30 && durationByType[2] < durationByType[3] + 15)
+    recommendedTypes.push('TRANSIT');
+  //if it can't be biked in 30 min and driving is at least 15 min faster than transit, carpool
+  if(durationByType[1] > 30 && durationByType[2] - durationByType[3] > 15)
+    recommendedTypes.push('DRIVING');
+
+  //default value if nothing else is suggested
+  if(recommendedTypes.length == 0)
+    recommendedTypes.push('DRIVING');
+
+  //in case multiple forms of transportation are recommended equally
+  return recommendedTypes;
+}
+
 function displayMap(map, route) {
   var directionsDisplay = new google.maps.DirectionsRenderer();
   directionsDisplay.setMap(map);
