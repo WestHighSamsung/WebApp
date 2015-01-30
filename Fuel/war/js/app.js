@@ -14,25 +14,23 @@ App.CarbonTableComponent = Ember.Component.extend({
   actions: {
     trap: function() {
       var container = this.$("#table-data");
-      container.html("fuck")
-      var output = "";
+      var output = "<thead>\n<tr>\n<th>Type</th>\n<th>Distance</th>\n<th>Duration</th>\n<th>Emissions</th>\n</thead>";
       //makes sure to check that it has routes
       if(RouteClass.hasRoutes){
-        
+
         //this is the routes for different types of transports.
         var routes = RouteClass.routes;
         //this will construct the table
-        output += "\n<tr>";
         
-        for(i = 0; i < routes.length; i++){
-          var routeInfo = new RouteClass(routes[i]);
-          for(j = 0; j < routeInfo.values.length; j++){
-            output += "\n<td>"+routeInfo.values[j]+"</td>";  
+        var transTypes = RouteClass.transTypes;
+        for(i = 0; i < transTypes.length; i++){
+          output += "\n<tr>\n<td><b>"+transTypes[i]+"</b></td>";
+          var routeInfo = routes[transTypes[i]];
+          for(j = 0; j < routeInfo.strings.length; j++){
+            output += "\n<td>"+routeInfo.strings[j]+"</td>";  
           }
-          
+          output +="\n</tr>";
         }
-        output +="\n</tr>";
-        console.log(routes.length);
         container.html(output);
       } 
     }
@@ -66,24 +64,24 @@ App.GoogleMapsComponent = Ember.Component.extend({
       for(j = 0; j < transTypes.length; j++){
         calcRoute(place.geometry.location, transTypes[j], directionsService, map);
       }
-      if(RouteClass.routes.length == transTypes.length){
-        //this is the routes for different types of transports.
-        var routes = RouteClass.routes;
-        //this will construct the table
-        table.html("hello");
-        output += "\n<tr>";
+      // if(RouteClass.routes.length == transTypes.length){
+      //   //this is the routes for different types of transports.
+      //   var routes = RouteClass.routes;
+      //   //this will construct the table
+      //   table.html("hello");
+      //   output += "\n<tr>";
         
-        for(i = 0; i < routes.length; i++){
-          var routeInfo = new RouteClass(routes[i]);
-          for(j = 0; j < routeInfo.values.length; j++){
-            output += "\n<td>"+routeInfo.values[j]+"</td>";  
-          }
+      //   for(i = 0; i < routes.length; i++){
+      //     var routeInfo = routes[i];
+      //     for(j = 0; j < routeInfo.values.length; j++){
+      //       output += "\n<td>"+routeInfo.values[j]+"</td>";  
+      //     }
           
-        }
-        output +="\n</tr>";
-        console.log("uh huh hunny");
-        table.html(output);
-      } 
+      //   }
+      //   output +="\n</tr>";
+      //   console.log("uh huh hunny");
+      //   table.html(output);
+      // } 
     });
     google.maps.event.addListener(map, 'bounds_changed', function() {
       var bounds = map.getBounds();

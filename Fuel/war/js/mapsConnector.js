@@ -1,12 +1,16 @@
 var westhigh = new google.maps.LatLng(40.774534, -111.900473);
 
 
-function RouteClass(route) {
+function RouteClass(route, type) {
   //index->reference|| 0 -> distance, 1 -> duration, 2 -> carbon
   this.values = Array(3);
+  this.strings = Array(3);
+  for(j=0; j < 3; j++){
+    this.values[j] = 0;
+  }
   this.legs = route.routes[0].legs;
-  for(i = 0; i < legs.length; i++){
-    var leg = legs[i];
+  for(i = 0; i < this.legs.length; i++){
+    var leg = this.legs[i];
     this.values[0] += leg.distance.value;
     this.values[1] += leg.duration.value;
   }
@@ -14,9 +18,48 @@ function RouteClass(route) {
   {
     alert("True");
   }
-  this.values[2] = this.values[0]/1609.34*430;
+  this.values[0] /= 1609.34;
+  if(type === 'DRIVING'){
+    this.values[2] = this.values[0]*430;
+  }else if(type === 'TRANSIT'){
+    this.values[2] = this.values[0]*300;//update this to match the actual value
+  }
+  //Format the values to readable strings
+  this.strings[0] = ""+format(this.values[0])+" mi.";
+  this.strings[1] = timeFormat(this.values[1]);
+  this.strings[2] = ""+format(this.values[2])+" grams of CO2";
+;}
+//formats to have only 1 decimal point
+function format(n){
+  return n.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
 }
+//input seconds and return time in format: hh hours, mm minutes, ss seconds
+function timeFormat(sec){
+  var hours = sec/3600;
+  var form = "";
+  if(hours >= 1) {
+    hours -= (sec%3600)/3600;
+    sec -= hours*3600;
+    form += hours +" hours, ";
+  }
+  else{
+    hours = 0;
+  }
+  var minutes = sec/60;
+  
+  if(minutes >= 1) {
+    minutes -= (sec%60)/60;
+    console.log(minutes);
+    sec -= minutes*60;
+    form += minutes + " minutes, ";
+  }
+  else{
+    minutes = 0;
+  }
+  form+= sec+ " seconds";
+  return form;
 
+}
 RouteClass.routes = {};
 RouteClass.hasRoutes = false;
 RouteClass.transTypes = ['WALKING','BICYCLING', 'TRANSIT','DRIVING'];
@@ -29,8 +72,8 @@ function calcRoute(place, transType, directionsService, map){
   };
   directionsService.route(request, function(response, status) {
     var trans = RouteClass.transTypes;
-    RouteClass.hasRoutes = true;        
-    RouteClass.routes[transType] = response;
+    RouteClass.hasRoutes = true;
+    RouteClass.routes[transType] = new RouteClass(response, transType);
     displayMap(map, response, status);
     //unnecessary stuff
     //only runs successfully onse
