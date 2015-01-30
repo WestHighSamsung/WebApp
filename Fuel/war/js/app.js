@@ -52,7 +52,7 @@ App.GoogleMapsComponent = Ember.Component.extend({
     var defaultBounds = new google.maps.LatLngBounds(westhigh, testLoc);
     map.fitBounds(defaultBounds);
     var input =($('#searchbar')[0]);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
     var searchBox = new google.maps.places.Autocomplete(input);
 
     google.maps.event.addListener(searchBox, 'place_changed', function() {
