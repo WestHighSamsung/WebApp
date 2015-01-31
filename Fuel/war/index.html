@@ -48,12 +48,7 @@
         <div class="container">
           <div class = "jumbotron">
             <h1>Save THE PLANET!</h1>
-            <div class="input-group">
-              <input type="text" class = "controls" placeholder="Type a location" id="searchbar">
-              // <span class="input-group-btn">
-              //   <button class="btn btn-default" type="button" id="search">Search!</button>
-              // </span>
-            </div><!-- /input-group -->
+            <input type="text" class = "controls" placeholder="Type a location" id="searchbar">
           </div>
           {{google-maps}}
           {{carbon-table}}
@@ -87,7 +82,7 @@
       <table id="table-data"></table>
     </script>
     <script type="text/x-handlebars" id="components/carbon-table">
-      <button class = "btn btn-default" {{action "trap"}}>Display Table</button>
+      <!---<button class = "btn btn-default" {{action "trap"}}>Display Table</button>-->
       <div class = "table-responsive">
         <table class = "table table-striped" id="table-data">
         </table>

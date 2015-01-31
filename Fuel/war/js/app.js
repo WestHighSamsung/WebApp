@@ -11,7 +11,6 @@ App.Router.map(function(){
 
 //needs to contain an array of arrays. Each sub array is a different mode.
 App.CarbonTableComponent = Ember.Component.extend({
-  actions: {
     trap: function() {
       var container = this.$("#table-data");
       var output = "<thead>\n<tr>\n<th>Type</th>\n<th>Distance</th>\n<th>Duration</th>\n<th>Emissions</th>\n</thead>";
@@ -33,12 +32,11 @@ App.CarbonTableComponent = Ember.Component.extend({
         }
         container.html(output);
       } 
-    }
-  }
+    }.observes('App.GoogleMapsComponent')
 });
 
 App.GoogleMapsComponent = Ember.Component.extend({
-	insertMap: function() {
+  insertMap: function() {
 		var container = this.$(".map-canvas");
     var table = this.$("#table-data");
 		var directionsService = new google.maps.DirectionsService();
