@@ -12,16 +12,18 @@
     </script>
   </head>
   <body>
-  <script src="js/fbConnector.js"></script>
-
-
     <!-- THEW PAGE TEMPALTE U STUPID-->
     <script type="text/x-handlebars">
         <div class ="navbar navbar-default navbar-static-top">
           <div class = "container">
                 <div class=".navbar-header">
                   <!-- Title -->
-              <a href ="/" class="navbar-brand">Fuel Efficiency</a>
+
+               {{#if App.FBUser}}
+                  {{#link-to 'index' class="navbar-brand"}}{{App.title}}{{/link-to}}
+                {{else}}
+                  {{#link-to 'login' class="navbar-brand"}}{{App.title}}{{/link-to}}
+                {{/if}}
               <!-- Nav button-->
               <button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
                 <span class = "icon-bar"></span>
@@ -31,9 +33,34 @@
             </div>
 
             <div class = "collapse navbar-collapse navHeaderCollapse">
+              <ul class = "nav navbar-nav navbar-left">
+                <li class = "active">
+                {{#if App.FBUser}}
+                  {{#link-to 'index'}}Home{{/link-to}}
+                {{else}}
+                  {{#link-to 'login'}}Home{{/link-to}}
+                {{/if}}
+                </li> 
+                <li>{{#link-to 'about'}}About{{/link-to}}</li> 
+              </ul>
+
               <ul class = "nav navbar-nav navbar-right">
-                <li class = "active"><a href = "/">Home</a></li> 
-                <li><a href = "/about">About</a></li> 
+                <li class = "active">
+                  {{#if App.FBrunning}}
+                    {{#if App.FBloading}}
+                     <p id = "sinfo" align="center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+                    {{else}}
+                      {{#if App.FBUser}}
+                        <img {{bindAttr src="App.FBUser.picture" alt="App.FBUser.name"}} id="fbimg"/>
+                          {{App.FBUser.name}}
+                      {{else}}
+                        {{#link-to 'login'}}Login{{/link-to}}
+                      {{/if}}
+                    {{/if}}
+                  {{else}}
+                  <p id = "sinfo" align="center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+                  {{/if}}
+                </li> 
               </ul>
             </div> 
 
@@ -48,17 +75,23 @@
         <div class="container">
           <div class = "jumbotron">
             <h1>Save THE PLANET!</h1>
+
             <div class="input-group">
               <input type="text" class = "controls" placeholder="Type a location" id="searchbar">
               <span class="input-group-btn">
                 <button class="btn btn-default" type="button" id="search">Search!</button>
               </span>
             </div><!-- /input-group -->
+
+          
           </div>
-          {{google-maps}}
-          {{carbon-table}}
-          <!--This is where carbon, carpool and login go. type deal in here.-->
-          {{outlet}}
+          {{#if App.FBUser}}
+
+            {{google-maps}}
+            {{outlet}}
+
+          {{/if}}
+
         </div>
     </script>
 
@@ -66,20 +99,44 @@
 
     <!-- Put the map canvas and the list here.-->
     <script type="text/x-handlebars" id="index/carbon">
-           
+      {{carbon-table}}
     </script>
 
     <!-- Put all carpool stuff here -->
     <script type="text/x-handlebars" id="index/carpool">
-
+      
         
     </script>
 
     <script type="text/x-handlebars" id="login">
-          <div id="status">
-          </div> 
-          <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-          </fb:login-button>
+
+        <div class="container">
+          <div class = "jumbotron">
+            <h1>Login!</h1>
+            {{#if App.FBrunning}}
+              {{#if App.FBloading}}
+                <p> Waiting to login dude! </p>
+              {{else}}
+                {{#if App.FBUser}}
+                  <div>
+                    <img {{bindAttr src="App.FBUser.picture" alt="App.FBUser.name"}} />
+                    {{App.FBUser.name}}
+                    <a href="#" {{action "logout" target="FB"}}>Logout</a>
+                  </div>
+                {{else}}
+                  {{#view Em.FacebookView type="login-button" data-size="xlarge"
+                            data-scope="email, offline_access"}}
+                    Connect
+                  {{/view}}
+                {{/if}}
+              {{/if}}
+
+            {{else}}
+              <p>DISPLAY FACEBOOK CONNECT LOADING CODE</p>
+            {{/if}}
+          </div>
+        </div>
+
     </script>
 
     <script type="text/x-handlebars" id="components/google-maps">
@@ -105,6 +162,15 @@
     </script>
 
 
+    <script type="text/x-handlebars" id="loading">
+            <div class="container">
+          <div class = "jumbotron">
+            <h1>Loading your code</h1>
+          </div>
+        </div>
+    </script>
+
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -112,6 +178,7 @@
     <script src="js/handlebars-v2.0.0.js"></script>
     <script src="js/mapsConnector.js"></script>
     <script src="js/ember-1.9.1.js"></script>
+      <script src="js/fbConnector.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

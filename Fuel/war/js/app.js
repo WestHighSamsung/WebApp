@@ -1,13 +1,40 @@
-App = Ember.Application.create();
+
+
+App = window.App = Ember.Application.createWithMixins(Em.Facebook);
+App.set('appId', '1536032630009134');
+App.set('title', 'West Connect');
 
 App.Router.map(function(){
-	this.resource('index', {path:'/'}, function(){
+	this.resource('index', {path:'/app'}, function(){
 		this.route('carbon');
 		this.route('carpool');
 	});
-	this.resource('login');
+	this.resource('login', {path: '/'});
 	this.resource('about')
 });
+
+
+App.IndexRoute = Ember.Route.extend({
+  afterModel: function(a,b){
+    if(App.get('FBUser') == false){
+      this.transitionTo('login');
+    }
+  },
+
+  FBUserChanged: function(){
+    if(App.get('FBUser') == false){
+      this.transitionTo('login');
+    }
+  }.observes('App.FBUser')
+});
+
+App.LoginRoute = Ember.Route.extend({
+  FBrunningChanged: function(){
+    if(App.get('FBUser') != false && App.get('FBUser') != undefined)
+      this.transitionTo('index');
+  }.observes('App.FBUser')
+});
+
 
 //needs to contain an array of arrays. Each sub array is a different mode.
 App.CarbonTableComponent = Ember.Component.extend({
@@ -54,7 +81,7 @@ App.GoogleMapsComponent = Ember.Component.extend({
     var input =($('#searchbar')[0]);
     //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
     var searchBox = new google.maps.places.Autocomplete(input);
-
+    console.log(App);
     google.maps.event.addListener(searchBox, 'place_changed', function() {
       var place = searchBox.getPlace();
       var transTypes = RouteClass.transTypes;//ease

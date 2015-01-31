@@ -1,2 +1,3 @@
 .metadata/
 plugins/
+/Fuel/war/WEB-INF/appengine-generated/*.bin
