@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tits</title>
+    <title>West Connect</title>
 	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
@@ -55,7 +55,8 @@
               </span>
             </div><!-- /input-group -->
           </div>
-
+          {{google-maps}}
+          {{carbon-table}}
           <!--This is where carbon, carpool and login go. type deal in here.-->
           {{outlet}}
         </div>
@@ -64,9 +65,9 @@
 
 
     <!-- Put the map canvas and the list here.-->
-    <scirpt type="text/x-handlebars" id="index/carbon">
-
-    </scirpt>
+    <script type="text/x-handlebars" id="index/carbon">
+           
+    </script>
 
     <!-- Put all carpool stuff here -->
     <script type="text/x-handlebars" id="index/carpool">
@@ -79,6 +80,18 @@
           </div> 
           <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
           </fb:login-button>
+    </script>
+
+    <script type="text/x-handlebars" id="components/google-maps">
+      <div class="map-canvas"></div>
+      <table id="table-data"></table>
+    </script>
+    <script type="text/x-handlebars" id="components/carbon-table">
+      <button class = "btn btn-default" {{action "trap"}}>Display Table</button>
+      <div class = "table-responsive">
+        <table class = "table table-striped" id="table-data">
+        </table>
+      </div>
     </script>
 
     <!-- THE ABOUT PAGE U DUMB -->
