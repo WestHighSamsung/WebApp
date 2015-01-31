@@ -5,11 +5,11 @@ App.set('appId', '1536032630009134');
 App.set('title', 'West Connect');
 
 App.Router.map(function(){
-	this.resource('index', {path:'/app'}, function(){
+	this.resource('index', {path:'/'}, function(){
 		this.route('carbon');
 		this.route('carpool');
 	});
-	this.resource('login', {path: '/'});
+	this.resource('login', {path: '/login'});
 	this.resource('about')
 });
 
@@ -29,6 +29,11 @@ App.IndexRoute = Ember.Route.extend({
 });
 
 App.LoginRoute = Ember.Route.extend({
+    afterModel: function(a,b){
+    if(App.get('FBUser') != false && App.get('FBUser') != undefined){
+      this.transitionTo('index');
+    }
+  },
   FBrunningChanged: function(){
     if(App.get('FBUser') != false && App.get('FBUser') != undefined)
       this.transitionTo('index');

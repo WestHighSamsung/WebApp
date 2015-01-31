@@ -74,9 +74,13 @@
     <script type="text/x-handlebars" id="index">
         <div class="container">
           <div class = "jumbotron">
+          {{#if App.FBUser}}
             <h1>Save THE PLANET!</h1>
             <input type="text" class = "controls" placeholder="Type a location" id="searchbar">
-
+          {{else}}
+            <h1> <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Hold on.</h1>
+            <p>We are getting things ready for you. If this is taking to long, try refreshing.  </p>
+          {{/if}}
 
           
           </div>
@@ -107,17 +111,16 @@
 
         <div class="container">
           <div class = "jumbotron">
-            <h1>Login!</h1>
+            <h1>{{App.title}}</h1>
+            <p>West Cpmmect is a rea;;y cool app dedicated to tuna and other cool stugff. With west connect you can provide interesting tunas for the dynamiamsismcs of tuna.
+            Lets getstarted.</p>
+
+            <center>
             {{#if App.FBrunning}}
               {{#if App.FBloading}}
-                <p> Waiting to login dude! </p>
+                <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
               {{else}}
                 {{#if App.FBUser}}
-                  <div>
-                    <img {{bindAttr src="App.FBUser.picture" alt="App.FBUser.name"}} />
-                    {{App.FBUser.name}}
-                    <a href="#" {{action "logout" target="FB"}}>Logout</a>
-                  </div>
                 {{else}}
                   {{#view Em.FacebookView type="login-button" data-size="xlarge"
                             data-scope="email, offline_access"}}
@@ -125,10 +128,10 @@
                   {{/view}}
                 {{/if}}
               {{/if}}
-
             {{else}}
-              <p>DISPLAY FACEBOOK CONNECT LOADING CODE</p>
+              <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
             {{/if}}
+            </center>
           </div>
         </div>
 
