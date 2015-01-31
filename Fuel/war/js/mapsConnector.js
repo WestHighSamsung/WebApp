@@ -75,20 +75,22 @@ function calcRoute(place, transType, directionsService, map){
     RouteClass.hasRoutes = true;
     RouteClass.routes[transType] = new RouteClass(response, transType);
     displayMap(map, response, status);
-    //unnecessary stuff
-    //only runs successfully onse
-    // for(i = 0; i < trans.length; i++) { 
-    //   if(transType == trans[i]) { 
-    //     RouteClass.hasRoutes = true;        
-    //     RouteClass.routes[transType] = response;
-    //     break;//doesn't need to keep searching after it has been found.
-    //   }
+    var tableDiv = $("#table-data");
+    tableDiv.show();
+    // if(tableDiv.is(":visibile")){
+    //   tableDiv.show();
     // }
   });
-  //this updates everytime to update the static route storage.
 
 }
 
+function displayMap(map, route, status) {
+  var directionsDisplay = new google.maps.DirectionsRenderer();
+  directionsDisplay.setMap(map);
+  if (status == google.maps.DirectionsStatus.OK) {
+    directionsDisplay.setDirections(route);
+  }
+}
 //function returns the recommended method/s of transportation
 function recommendTransType(place) {
   var recommendedTypes = new Array();
@@ -139,15 +141,6 @@ function recommendTransType(place) {
   //in case multiple forms of transportation are recommended equally
   return recommendedTypes;
 }
-
-function displayMap(map, route, status) {
-  var directionsDisplay = new google.maps.DirectionsRenderer();
-  directionsDisplay.setMap(map);
-  if (status == google.maps.DirectionsStatus.OK) {
-    directionsDisplay.setDirections(route);
-  }
-}
-
   //commented out for convenient debugging.
   // function calcRoute(place, transType, directionsServ, map) {
  
