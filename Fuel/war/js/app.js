@@ -38,7 +38,6 @@ App.LoginRoute = Ember.Route.extend({
 
 //needs to contain an array of arrays. Each sub array is a different mode.
 App.CarbonTableComponent = Ember.Component.extend({
-  actions: {
     trap: function() {
       var container = this.$("#table-data");
       var output = "<thead>\n<tr>\n<th>Type</th>\n<th>Distance</th>\n<th>Duration</th>\n<th>Emissions</th>\n</thead>";
@@ -60,12 +59,11 @@ App.CarbonTableComponent = Ember.Component.extend({
         }
         container.html(output);
       } 
-    }
-  }
+    }.observes('App.GoogleMapsComponent')
 });
 
 App.GoogleMapsComponent = Ember.Component.extend({
-	insertMap: function() {
+  insertMap: function() {
 		var container = this.$(".map-canvas");
     var table = this.$("#table-data");
 		var directionsService = new google.maps.DirectionsService();
@@ -91,24 +89,6 @@ App.GoogleMapsComponent = Ember.Component.extend({
       for(j = 0; j < transTypes.length; j++){
         calcRoute(place.geometry.location, transTypes[j], directionsService, map);
       }
-      // if(RouteClass.routes.length == transTypes.length){
-      //   //this is the routes for different types of transports.
-      //   var routes = RouteClass.routes;
-      //   //this will construct the table
-      //   table.html("hello");
-      //   output += "\n<tr>";
-        
-      //   for(i = 0; i < routes.length; i++){
-      //     var routeInfo = routes[i];
-      //     for(j = 0; j < routeInfo.values.length; j++){
-      //       output += "\n<td>"+routeInfo.values[j]+"</td>";  
-      //     }
-          
-      //   }
-      //   output +="\n</tr>";
-      //   console.log("uh huh hunny");
-      //   table.html(output);
-      // } 
     });
     google.maps.event.addListener(map, 'bounds_changed', function() {
       var bounds = map.getBounds();
