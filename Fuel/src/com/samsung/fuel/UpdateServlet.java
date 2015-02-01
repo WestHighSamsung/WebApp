@@ -28,7 +28,7 @@ public class UpdateServlet extends HttpServlet
 		//Initializes variables
 		//Receive data necessary for creating new entity object with same key
 		String enType = "User";
-		String accTok = req.getParameter("userID");
+		String userID = req.getParameter("userID");
 
 		//Get list of strings of passed parameterNames
 		ArrayList<String> parameterNames = new ArrayList<String>();
@@ -38,7 +38,7 @@ public class UpdateServlet extends HttpServlet
 			parameterNames.add(parameterName);
 		}
 
-		Key k = KeyFactory.createKey(enType, accTok);
+		Key k = KeyFactory.createKey(enType, userID);
 
 		//Update entity
 		try{

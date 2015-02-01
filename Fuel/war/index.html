@@ -93,8 +93,8 @@
               </div><!-- /col-lg-4 -->
               
               <div class="col-lg-4">
-                <h4>About Stanley</h4>
-                <p>This cute theme was created to showcase your work in a simple way. Use it wisely.</p>
+                <h4>About WC</h4>
+                <p>West connect is a helpfulactual neeed some text here. You can do adds. and</p>
               </div><!-- /col-lg-4 -->
             
             </div>
@@ -107,9 +107,11 @@
     <script type="text/x-handlebars" id="index">
         <div class="container">
           <div class = "jumbotron">
-          {{#if App.FBUser}}
-            <h1>Save THE PLANET!</h1>
-            <input type="text" class = "controls" placeholder="Type a location" id="searchbar">
+          {{#if App.FBUser.address}}
+            
+              <h1>Save THE PLANET!</h1>
+              {{input class = "controls" placeholder="Type a location" id="searchbar" value=App.FBUser.address}}
+            
           {{else}}
             <h1> <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Hold on.</h1>
             <p>We are getting things ready for you. If this is taking to long, try refreshing.  </p>
@@ -117,7 +119,7 @@
 
           
           </div>
-          {{#if App.FBUser}}
+          {{#if App.FBUser.address}}
 
             {{google-maps}}
             {{outlet}}

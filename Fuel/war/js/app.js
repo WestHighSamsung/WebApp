@@ -18,7 +18,8 @@ App.Router.map(function(){
 
 App.IndexRoute = Ember.Route.extend({
   activate: function(){
-    if(App.get('FBUser') == false){
+    this._super();
+    if(App.get('FBUser') == false || App.get('FBUser') == undefined || (App.get('FBUser') != undefined && App.get('FBUser').get('address') == undefined)){
       this.transitionTo('login');
     }
   }.observes('App.FBUser')
@@ -27,19 +28,26 @@ App.IndexRoute = Ember.Route.extend({
 
 //Registration and fun shti
 App.LoginRoute = Ember.Route.extend({
-  afterModel: function(){
+  activate: function(){
     this._super();
     //Let's handle the registration
     if(App.get('FBUser') != false && App.get('FBUser') != undefined){
       var user = App.get('FBUser');
       var _this = this;
-      //Connect to server
-      return $.getJSON("http://localhost:8888/api/login",
-      {
+      console.log({
         "name": user.name,
         "userID": user.id,
         "accTok": user.accessToken,
         "email": user.email
+      });
+      //Connect to server
+      console.log("help");
+      return App.$.getJSON("http://localhost:8888/api/login",
+      {
+        name: user.name,
+        userID: user.id,
+        accTok: user.accessToken,
+        email: user.email
       },
       function(resp){
         var val = resp.propertyMap;
@@ -49,10 +57,19 @@ App.LoginRoute = Ember.Route.extend({
           _this.transitionTo("login.register");
           $("#white").scrollView();
         }
-        else
+        else{
+          user.set('address', resp.propertyMap.address);
+          console.log("going to go to the index");
           _this.transitionTo('index');
-      }); 
+        }
+
+      }).fail(function(a,s,d){
+        console.log(a);
+        console.log(s);
+        console.log(d);
+      });
     }
+
   }.observes('App.FBUser')
 });
 

@@ -35,15 +35,18 @@ public class LoginServlet extends HttpServlet
 
 		//Create key for entity object using type of entity and accountToken
 		Key k = KeyFactory.createKey(enType, userID);
-		
+		System.out.println("Request: \n\taccTok:"+accTok+"\n\tuserID:"+userID+"\n\tname:"+name+"\n\temail:"+email);
 		//Check if entity already exists in database
 		try{
+
+			System.out.println("Trying to get Entity");
 			datastore.get(k);
 		}
 		catch(EntityNotFoundException e)
 		{
+			System.out.println("entity not found");
 			//Insert new user and properties into database
-			Entity user = new Entity(enType, accTok);
+			Entity user = new Entity(enType, userID);
 			user.setProperty("accTok", accTok);
 			user.setProperty("userID", userID);
 			user.setProperty("name", name);
