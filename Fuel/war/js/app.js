@@ -26,8 +26,17 @@ App.LoginRoute = Ember.Route.extend({
   afterModel: function(a,b){
     //Let's handle the registration
     if(App.get('FBUser') != false && App.get('FBUser') != undefined){
+      var user = App.get('FBUser');
       //Connect to server
-
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:8888/api/login",
+        data: {name: user.name, accTok: user.accessToken, userID: user.id, email: user.email},
+        success: function(res){
+          console.log(res);
+        },
+        dataType: 'json'
+      });
 
       this.transitionTo('index');
     }
