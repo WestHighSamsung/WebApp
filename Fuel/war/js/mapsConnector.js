@@ -63,7 +63,22 @@ function timeFormat(sec){
 RouteClass.routes = {};
 RouteClass.hasRoutes = false;
 RouteClass.transTypes = ['WALKING','BICYCLING', 'TRANSIT','DRIVING'];
-var directionsDisplay = new google.maps.DirectionsRenderer();
+var colors = ['#FF0000', '#00FF00', '#0000FF', '#FF00FF'];
+var directionsDisplay = {};
+//initialize directionsDisplay
+for(i = 0; i < RouteClass.transTypes.length; i++)
+{
+  var polylineOptionsReal = new google.maps.Polyline({
+    strokeColor: colors[i],
+    strokeOpacity: 0.8,
+    strokeWeight: 5
+    });
+  var options = {
+    polylineOptions: polylineOptionsReal
+  }
+  directions = new google.maps.DirectionsRenderer(options);
+  directionsDisplay[RouteClass.transTypes[i]] = directions;
+}
 //function takes the starting location and transportation type and outputs a route object
 function calcRoute(place, transType, directionsService, map){ 
   var request = {
@@ -76,11 +91,12 @@ function calcRoute(place, transType, directionsService, map){
     console.log(transType);
   }
   directionsService.route(request, function(response, status) {
+    var renderer = directionsDisplay[transType];
     var trans = RouteClass.transTypes;
     RouteClass.hasRoutes = true;
     RouteClass.routes[transType] = new RouteClass(response, transType);
     if (status == google.maps.DirectionsStatus.OK) {
-      addMap(map, response);
+      displayMap(map, response, renderer);
     }
     var tableDiv = $("#table-data");
     tableDiv.show();
@@ -111,7 +127,8 @@ function addMap(map, route) {
   directionsDisplay.setDirections({routes: retRoutes});
 }
 //Displays a single route
-function displayMap(map, route) {
+function displayMap(map, route, directionsDisplay) {
+  console.log("displayMap()");
   directionsDisplay.setMap(map);  
   directionsDisplay.setDirections(route); 
 }
