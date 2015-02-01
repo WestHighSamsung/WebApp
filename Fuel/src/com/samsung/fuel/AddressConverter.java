@@ -1,4 +1,4 @@
-package com.samsung.conserve;
+package com.samsung.fuel;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
