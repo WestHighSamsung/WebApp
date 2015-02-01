@@ -3,5 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/FuelEfficiency/.google_apis/mapsengine-v1r29lv1.18.0-rc/mapsengine/libs/gson-2.1.jar" rootpath="/" sourcepath="/FuelEfficiency/.google_apis/mapsengine-v1r29lv1.18.0-rc/mapsengine/libs-sources/gson-2.1-sources.jar"/>
+	<classpathentry kind="lib" path="/FuelEfficiency/war/WEB-INF/lib/jackson-core-asl-1.8.5.jar"/>
+	<classpathentry kind="lib" path="/FuelEfficiency/war/WEB-INF/lib/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="/FuelEfficiency/war/WEB-INF/lib/jackson-mapper-asl-1.8.5.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

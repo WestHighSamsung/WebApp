@@ -14,23 +14,23 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 
-
 @SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet 
 {	
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException 
 	{
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
 		//Initializes variables and recieves data from the request
 		String enType = "User";
 		String accTok = req.getParameter("accTok");
 		String userID = req.getParameter("userID");
 		String name = req.getParameter("name");
 		String email = req.getParameter("email");
-		String address = null, co2= null, travelType= null, route = null;
+		String address = "null", co2= "null", 
+				travelType= "null", route = "null", lat = "null", lng = "null";
 		boolean isCarpool = false;
 
 		//Create key for entity object using type of entity and accountToken
@@ -54,6 +54,8 @@ public class LoginServlet extends HttpServlet
 			user.setProperty("co2", co2);
 			user.setProperty("travelType", travelType);
 			user.setProperty("route", route);
+			user.setProperty("lat", lat);
+			user.setProperty("lng", lng);
 			
 			datastore.put(user);
 			resp.getWriter().println("asdasdasdasd");

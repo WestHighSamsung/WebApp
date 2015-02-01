@@ -8,9 +8,25 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>login</servlet-name>
 		<servlet-class>com.samsung.fuel.LoginServlet</servlet-class>
 	</servlet>
+	<servlet>	
+		<servlet-name>update</servlet-name>
+		<servlet-class>com.samsung.fuel.UpdateServlet</servlet-class>
+	</servlet>
+	<servlet>	
+		<servlet-name>carpool</servlet-name>
+		<servlet-class>com.samsung.fuel.CarpoolServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>login</servlet-name>
 		<url-pattern>/api/login</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>update</servlet-name>
+		<url-pattern>/update</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>carpool</servlet-name>
+		<url-pattern>/carpool</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
