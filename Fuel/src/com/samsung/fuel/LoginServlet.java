@@ -12,7 +12,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.gson.Gson;
 
 @SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet 
@@ -38,7 +38,6 @@ public class LoginServlet extends HttpServlet
 		
 		//Check if entity already exists in database
 		try{
-			resp.getWriter().println("asdasdasdasd");
 			datastore.get(k);
 		}
 		catch(EntityNotFoundException e)
@@ -58,16 +57,13 @@ public class LoginServlet extends HttpServlet
 			user.setProperty("lng", lng);
 			
 			datastore.put(user);
-			resp.getWriter().println("asdasdasdasd");
 		}
 
 		//Returns json output of object
 		Gson translate = new Gson();
 		try {
-			resp.getWriter().println(translate.toJson(datastore.get(k)));
-		} catch (EntityNotFoundException e) {
-			resp.getWriter().println("sdsd");
-		}
+			resp.getWriter().print(translate.toJson(datastore.get(k)));
+		} catch (EntityNotFoundException e) {}
 	}
 
 	public void doGet(HttpServletRequest request,
