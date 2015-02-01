@@ -1,5 +1,3 @@
-
-
 App = window.App = Ember.Application.createWithMixins(Em.Facebook);
 App.set('appId', '1536032630009134');
 App.set('title', 'West Connect');
@@ -19,26 +17,26 @@ App.IndexRoute = Ember.Route.extend({
     if(App.get('FBUser') == false){
       this.transitionTo('login');
     }
-  },
-
-  FBUserChanged: function(){
-    if(App.get('FBUser') == false){
-      this.transitionTo('login');
-    }
   }.observes('App.FBUser')
 });
 
+
+//Registration and fun shti
 App.LoginRoute = Ember.Route.extend({
-    afterModel: function(a,b){
+  afterModel: function(a,b){
+    //Let's handle the registration
     if(App.get('FBUser') != false && App.get('FBUser') != undefined){
+      //Connect to server
+
+
       this.transitionTo('index');
     }
-  },
-  FBrunningChanged: function(){
-    if(App.get('FBUser') != false && App.get('FBUser') != undefined)
-      this.transitionTo('index');
-  }.observes('App.FBUser')
+  }.observes('App.FBUser'),
 });
+
+
+
+
 
 
 //needs to contain an array of arrays. Each sub array is a different mode.
