@@ -40,10 +40,7 @@ public class CarpoolServlet extends HttpServlet
 		try {
 			lat1 = Double.parseDouble((String) datastore.get(k).getProperty("lat"));
 			lng1 = Double.parseDouble((String) datastore.get(k).getProperty("lng"));
-		} catch (NumberFormatException | EntityNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		} catch (NumberFormatException | EntityNotFoundException e1) {}
 
 		//Query into database
 		Query q = new Query(enType);
@@ -78,10 +75,12 @@ public class CarpoolServlet extends HttpServlet
 		//Return closest 6 people in database as json objects
 		//One of these 6 is the original, given user searching for close neighbors to carpool with
 		Gson translate = new Gson();
+		ArrayList<Neighbor> closest = new ArrayList<Neighbor>();
 		for(int i= 0; i<6; i++)
 		{
-			resp.getWriter().println(translate.toJson(closeOthers.get(i).given));
+			closest.add(closeOthers.get(i));
 		}
+		resp.getWriter().print(translate.toJson(closest));
 	}
 
 	public void doGet(HttpServletRequest request,

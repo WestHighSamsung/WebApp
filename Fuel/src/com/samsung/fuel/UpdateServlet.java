@@ -71,17 +71,13 @@ public class UpdateServlet extends HttpServlet
 			//Enter into datastore
 			datastore.put(user);
 		}
-		catch(EntityNotFoundException e){
-			resp.getWriter().println("Error 1");
-		}
+		catch(EntityNotFoundException e){}
 
 		//Returns json output of object
 		Gson translate = new Gson();
 		try {
-			resp.getWriter().println(translate.toJson(datastore.get(k)));
-		} catch (EntityNotFoundException e) {
-			resp.getWriter().println("Error 2");
-		}
+			resp.getWriter().print(translate.toJson(datastore.get(k)));
+		} catch (EntityNotFoundException e) {}
 	}
 
 	public void doGet(HttpServletRequest request,
