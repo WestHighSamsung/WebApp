@@ -22,11 +22,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>update</servlet-name>
-		<url-pattern>/update</url-pattern>
+		<url-pattern>/api/update</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>carpool</servlet-name>
-		<url-pattern>/carpool</url-pattern>
+		<url-pattern>/api/carpool</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

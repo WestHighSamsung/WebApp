@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet
 		boolean isCarpool = false;
 
 		//Create key for entity object using type of entity and accountToken
-		Key k = KeyFactory.createKey(enType, accTok);
+		Key k = KeyFactory.createKey(enType, userID);
 		
 		//Check if entity already exists in database
 		try{

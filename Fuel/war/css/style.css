@@ -1,6 +1,4 @@
-.ember-application {
-    margin: 20px;
-}
+
   .map-canvas { height: 400; margin: 0; padding: 0;}
    .controls {
     margin-top: 16px;
@@ -15,6 +13,11 @@
   /*#table-data {
     visibility: hidden;
   }*/
+
+  #west{
+    height=155px;
+    width=155px;
+  }
   #searchbar {
     background-color: #fff;
     padding: 0 11px 0 13px;
@@ -44,7 +47,6 @@
     font-weight: 300;
   }
 
-body { padding-top: 70px; }
 
   #fbimg{
     height:40;

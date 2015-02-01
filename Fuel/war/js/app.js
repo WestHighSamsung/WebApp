@@ -1,19 +1,23 @@
 App = window.App = Ember.Application.createWithMixins(Em.Facebook);
 App.set('appId', '1536032630009134');
 App.set('title', 'West Connect');
+Ember.ENV.RAISE_ON_DEPRECATION = false;
+Ember.LOG_STACKTRACE_ON_DEPRECATION = false;
 
 App.Router.map(function(){
 	this.resource('index', {path:'/'}, function(){
 		this.route('carbon');
 		this.route('carpool');
 	});
-	this.resource('login', {path: '/login'});
+	this.resource('login', {path: '/login'}, function(){
+    this.route('register');
+  });
 	this.resource('about')
 });
 
 
 App.IndexRoute = Ember.Route.extend({
-  afterModel: function(a,b){
+  activate: function(){
     if(App.get('FBUser') == false){
       this.transitionTo('login');
     }
@@ -23,30 +27,68 @@ App.IndexRoute = Ember.Route.extend({
 
 //Registration and fun shti
 App.LoginRoute = Ember.Route.extend({
-  afterModel: function(a,b){
+  afterModel: function(){
+    this._super();
     //Let's handle the registration
     if(App.get('FBUser') != false && App.get('FBUser') != undefined){
       var user = App.get('FBUser');
+      var _this = this;
       //Connect to server
-      $.ajax({
-        type: "POST",
-        url: "http://localhost:8888/api/login",
-        data: {name: user.name, accTok: user.accessToken, userID: user.id, email: user.email},
-        success: function(res){
-          console.log(res);
-        },
-        dataType: 'json'
-      });
-
-      this.transitionTo('index');
+      return $.getJSON("http://localhost:8888/api/login",
+      {
+        "name": user.name,
+        "userID": user.id,
+        "accTok": user.accessToken,
+        "email": user.email
+      },
+      function(resp){
+        var val = resp.propertyMap;
+        console.log(val);
+        if(val.address == "null"){
+          //Begin the registration
+          _this.transitionTo("login.register");
+          $("#white").scrollView();
+        }
+        else
+          _this.transitionTo('index');
+      }); 
     }
-  }.observes('App.FBUser'),
+  }.observes('App.FBUser')
 });
 
 
+App.LoginRegisterRoute = Ember.Route.extend({
+  activate: function(){
+    this._super();
+  },
+  actions:{
+    doRegister: function(){
+
+      var _this = this;
+      var address = $("#radr").val();
+      console.log(address);
+      var user = App.get('FBUser');
+      user.set('address', address);
+      $.getJSON("http://localhost:8888/api/update",
+      {
+        "userID": user.id,
+        "address": address
+      },
+      function(resp){
+        _this.transitionTo('index');
+      });
+    }
+  }
+});
 
 
-
+$.fn.scrollView = function () {
+    return this.each(function () {
+        $('html, body').animate({
+            scrollTop: $(this).offset().top
+        }, 1000);
+    });
+}
 
 //needs to contain an array of arrays. Each sub array is a different mode.
 App.CarbonTableComponent = Ember.Component.extend({
@@ -91,7 +133,6 @@ App.GoogleMapsComponent = Ember.Component.extend({
     var input =($('#searchbar')[0]);
     //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
     var searchBox = new google.maps.places.Autocomplete(input);
-    console.log(App);
     google.maps.event.addListener(searchBox, 'place_changed', function() {
       var place = searchBox.getPlace();
       var transTypes = RouteClass.transTypes;//ease
@@ -107,4 +148,12 @@ App.GoogleMapsComponent = Ember.Component.extend({
       searchBox.setBounds(bounds);
     });
 	}.on('didInsertElement')
+});
+
+App.AddressInputComponent = Ember.Component.extend({
+  insert: function(){
+    var input =($('#radr')[0]);
+    //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    var searchBox = new google.maps.places.Autocomplete(input);
+  }.on('didInsertElement')
 });

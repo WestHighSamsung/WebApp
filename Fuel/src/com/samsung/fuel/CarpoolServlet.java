@@ -30,7 +30,7 @@ public class CarpoolServlet extends HttpServlet
 	{
 		//Initializes variables and recieves data from the request
 		String enType = "User";
-		String accTok = req.getParameter("accTok");
+		String accTok = req.getParameter("userID");
 
 		//Create key for entity object using type of entity and accountToken
 		Key k = KeyFactory.createKey(enType, accTok);

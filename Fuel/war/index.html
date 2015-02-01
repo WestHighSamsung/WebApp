@@ -16,7 +16,7 @@
   <body>
     <!-- THEW PAGE TEMPALTE U STUPID-->
     <script type="text/x-handlebars">
-        <nav role="navigation" class ="navbar navbar-default navbar-fixed-top">
+        <div role="navigation" class ="navbar navbar-inverse navbar-static-top">
           <div class = "container">
                 <div class=".navbar-header">
                   <!-- Title -->
@@ -47,14 +47,14 @@
               </ul>
 
               <ul class = "nav navbar-nav navbar-right">
-                <li class = "active">
+                <li>
                   {{#if App.FBrunning}}
                     {{#if App.FBloading}}
                      <p id = "sinfo" align="center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                     {{else}}
                       {{#if App.FBUser}}
-                        <img {{bindAttr src="App.FBUser.picture" alt="App.FBUser.name"}} id="fbimg"/>
-                          {{App.FBUser.name}}
+                        
+                          <a><img {{bindAttr src="App.FBUser.picture" alt="App.FBUser.name"}} id="fbimg"/> {{App.FBUser.name}}</a>
                       {{else}}
                         {{#link-to 'login'}}Login{{/link-to}}
                       {{/if}}
@@ -67,9 +67,40 @@
             </div> 
 
           </div>
-        </nav>
+        </div>
 
         {{outlet}}
+
+        <div id="footer">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-4">
+                <h4>Contact</h4>
+                <p>
+                  West High School,<br/>
+                  241 N. 300 W.<br/>
+                  Salt Lake City
+                </p>
+              </div><!-- /col-lg-4 -->
+              
+              <div class="col-lg-4">
+                <h4>Links</h4>
+                <p>
+                  <a href="#">Web</a><br/>
+                  <a href="#">Twitter</a><br/>
+                  <a href="#">Facebook</a>
+                </p>
+              </div><!-- /col-lg-4 -->
+              
+              <div class="col-lg-4">
+                <h4>About Stanley</h4>
+                <p>This cute theme was created to showcase your work in a simple way. Use it wisely.</p>
+              </div><!-- /col-lg-4 -->
+            
+            </div>
+          
+          </div>
+        </div>
     </script>
 
     <!-- THE FRONT PAGE -->
@@ -92,7 +123,6 @@
             {{outlet}}
 
           {{/if}}
-
         </div>
     </script>
 
@@ -105,44 +135,77 @@
 
     <!-- Put all carpool stuff here -->
     <script type="text/x-handlebars" id="index/carpool">
-      
-        
     </script>
 
     <script type="text/x-handlebars" id="login">
+    <div id="ww">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 centered">
+             <img id="west" src="img/logo.png" alt="West Connect">
+              <h1>{{App.title}}</h1>
+              <p>West Cpmmect is a rea;;y cool app dedicated to tuna and other cool stugff. With west connect you can provide interesting tunas for the dynamiamsismcs of tuna.
+              Lets getstarted.</p>
 
-        <div class="container">
-          <div class = "jumbotron">
-            <h1>{{App.title}}</h1>
-            <p>West Cpmmect is a rea;;y cool app dedicated to tuna and other cool stugff. With west connect you can provide interesting tunas for the dynamiamsismcs of tuna.
-            Lets getstarted.</p>
-
-            <center>
-            {{#if App.FBrunning}}
-              {{#if App.FBloading}}
-                <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
-              {{else}}
-                {{#if App.FBUser}}
+              
+              {{#if App.FBrunning}}
+                {{#if App.FBloading}}
+                  <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                 {{else}}
-                  {{#view Em.FacebookView type="login-button" data-size="xlarge"
-                            data-scope="email, offline_access"}}
-                    Connect
-                  {{/view}}
+                  {{#if App.FBUser}}
+                  {{else}}
+                    {{#view Em.FacebookView type="login-button" data-size="xlarge"
+                              data-scope="email, offline_access"}}
+                      Connect
+                    {{/view}}
+                  {{/if}}
                 {{/if}}
+              {{else}}
+                <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
               {{/if}}
-            {{else}}
-              <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
-            {{/if}}
-            </center>
-          </div>
-        </div>
+              
+          
+          </div><!-- /col-lg-8 -->
+        </div><!-- /row -->
+        </div> <!-- /container -->
+    </div><!-- /ww -->
+    {{#if App.FBrunning}}
+    {{#unless App.FBloading}}
+      {{outlet}}
+    {{/unless}}
+    {{/if}}
+    </script>
+ 
+    <script type="text/x-handlebars" id="login/register">
+      <div id="white">
+         <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+              <h3>Register</h3>
+              <p>To get started, please fill out some information about yourself so that we can optimize your experience. This stuff helps you and us find the most optimal route to West.</p>
+                <label>Address</label>
+                {{address-input}}
 
+              <button type="submit" class="btn btn-primary" {{action "doRegister"}}>Register</button>
+            </div>
+
+          </div><!-- /row -->
+        </div>
+      </div>
     </script>
 
     <script type="text/x-handlebars" id="components/google-maps">
       <div class="map-canvas"></div>
       <table id="table-data"></table>
     </script>
+
+    <script type="text/x-handlebars" id="components/address-input">
+       <div class="input-group input-group-lg">
+      <span class="input-group-addon" id="sizing-addon1">@</span>
+        {{input type="text" class="form-control" placeholder="123 Long Ave." aria-describedby="sizing-addon1" id="radr"}}
+       </div>
+    </script>
+
     <script type="text/x-handlebars" id="components/carbon-table">
       <!---<button class = "btn btn-default" {{action "trap"}}>Display Table</button>-->
       <div class = "table-responsive">
