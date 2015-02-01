@@ -108,6 +108,7 @@ function calcRoute(place, transType, directionsService, map){
 }
 
 //just adds a map, doesn't replace the old one.
+//currently not in use 
 function addMap(map, route) {
   var curRoutes = directionsDisplay.getDirections();
   var retRoutes;

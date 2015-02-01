@@ -167,15 +167,25 @@ App.GoogleMapsComponent = Ember.Component.extend({
     var input =($('#searchbar')[0]);
     //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
     var searchBox = new google.maps.places.Autocomplete(input);
+    
+
+
+
+    var geocoder = new google.maps.Geocoder();
+    var addy = $('#searchbar').val();
+    geocoder.geocode({'address': addy}, function(results, status){
+      if (status == google.maps.GeocoderStatus.OK) {
+        var place = results[0];
+        allRoutes(place, directionsService, map);
+      }
+      else{
+        alert("invalid address");
+      }
+    })
+    
     google.maps.event.addListener(searchBox, 'place_changed', function() {
       var place = searchBox.getPlace();
-      var transTypes = RouteClass.transTypes;//ease
-      //array for the different modes of travel
-      var routes = [];
-      //currently saves then displays map.
-      for(j = 0; j < transTypes.length; j++){
-        calcRoute(place.geometry.location, transTypes[j], directionsService, map);
-      }
+      allRoutes(place, directionsService, map);
     });
     google.maps.event.addListener(map, 'bounds_changed', function() {
       var bounds = map.getBounds();
@@ -183,7 +193,16 @@ App.GoogleMapsComponent = Ember.Component.extend({
     });
 	}.on('didInsertElement')
 });
-
+//place must 
+function allRoutes(place, directionsService, map){
+  var transTypes = RouteClass.transTypes;//ease
+  //array for the different modes of travel
+  var routes = [];
+  //currently saves then displays map.
+  for(j = 0; j < transTypes.length; j++){
+    calcRoute(place.geometry.location, transTypes[j], directionsService, map);
+  }
+}
 App.AddressInputComponent = Ember.Component.extend({
   insert: function(){
     var input =($('#radr')[0]);
