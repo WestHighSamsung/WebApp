@@ -55,6 +55,10 @@
           return _this.updateFBUser(response);
         });
       },
+      fbLogout: function(){
+        FB.logout();
+        this.set('FBUser', false);
+      },
       updateFBUser: function(response) {
         var _this = this;
         if (response.status === 'connected') {

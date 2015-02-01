@@ -15,6 +15,14 @@ App.Router.map(function(){
 	this.resource('about')
 });
 
+App.ApplicationController = Ember.Controller.extend({
+  actions:{
+    logout: function(){
+      App.fbLogout();
+    }
+  }
+});
+
 
 App.IndexRoute = Ember.Route.extend({
   activate: function(){
@@ -30,8 +38,10 @@ App.IndexRoute = Ember.Route.extend({
 App.LoginRoute = Ember.Route.extend({
   beforeModel: function(transition){
       console.log('hello');
-      if(App.get('FBUser') != undefined && App.get('FBUser') != false && App.get('FBUser').address != undefined)
+      if(App.get('FBUser') != undefined && App.get('FBUser') != false && App.get('FBUser').address != undefined){
         transition.abort();
+        console.log('goodbye');
+      }
       else
           return true;
   },
