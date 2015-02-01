@@ -14,4 +14,27 @@ var tips =[
  {title:"GIVE IT AWAY",
   text: "Before you throw something away, think about if someone else might need it. Either donate to a charitable organization or post it on a web site designed to connect people and things, such as Freecycle.org."}
 ];
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
+function doTips(){
+	setTimeout(function(){
+	var r= getRandomInt(0,6);
+	$("#tipText").animate({opacity: 0});
+	$("#tipTitle").animate({opacity:0},function(){
+		$("#tipTitle").text("Tip: "+ tips[r].title);
+		$("#tipText").text(tips[r].text);
+		$("#tipText").animate({opacity:1});
+		$("#tipTitle").animate({opacity:1},
+			function(){
+				doTips();
+			});
+		});
+	}, 7500);
+	
+
+}
+$(document).ready(function(){
+	doTips();
+});
