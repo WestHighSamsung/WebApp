@@ -54,7 +54,7 @@
                     {{else}}
                       {{#if App.FBUser}}
                         
-                          <a href="http://www.facebook.com/logout.php"><img {{bindAttr src="App.FBUser.picture" alt="App.FBUser.name"}} id="fbimg"/>{{App.FBUser.name}} <small>Logout</small> </a>
+                          <a {{action 'logout'}}><img {{bindAttr src="App.FBUser.picture" alt="App.FBUser.name"}} id="fbimg"/>{{App.FBUser.name}} <small>Logout</small> </a>
                       {{else}}
                         {{#link-to 'login'}}Login{{/link-to}}
                       {{/if}}
