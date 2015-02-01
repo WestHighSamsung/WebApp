@@ -2,3 +2,13 @@ Notes:
 If there are no routes to display, the table should be blank.
 There is only consideration with the default route. We can tell the user to consider actual google maps results or instead accompany for it. 
 	Accompaniment would be a beech
+
+
+
+Maybe some differentitation of hte routes would be nice.
+
+
+Table doesn't show.
+
+
+

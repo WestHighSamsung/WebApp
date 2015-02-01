@@ -63,6 +63,7 @@ function timeFormat(sec){
 RouteClass.routes = {};
 RouteClass.hasRoutes = false;
 RouteClass.transTypes = ['WALKING','BICYCLING', 'TRANSIT','DRIVING'];
+var directionsDisplay = new google.maps.DirectionsRenderer();
 //function takes the starting location and transportation type and outputs a route object
 function calcRoute(place, transType, directionsService, map){ 
   var request = {
@@ -70,25 +71,50 @@ function calcRoute(place, transType, directionsService, map){
       destination: westhigh,
       travelMode: google.maps.TravelMode[transType]
   };
+
+  if(transType === undefined) {
+    console.log(transType);
+  }
   directionsService.route(request, function(response, status) {
     var trans = RouteClass.transTypes;
     RouteClass.hasRoutes = true;
     RouteClass.routes[transType] = new RouteClass(response, transType);
-    displayMap(map, response, status);
-    //unnecessary stuff
-    //only runs successfully onse
-    // for(i = 0; i < trans.length; i++) { 
-    //   if(transType == trans[i]) { 
-    //     RouteClass.hasRoutes = true;        
-    //     RouteClass.routes[transType] = response;
-    //     break;//doesn't need to keep searching after it has been found.
-    //   }
+    if (status == google.maps.DirectionsStatus.OK) {
+      addMap(map, response);
+    }
+    var tableDiv = $("#table-data");
+    tableDiv.show();
+    // if(tableDiv.is(":visibile")){
+    //   tableDiv.show();
     // }
   });
-  //this updates everytime to update the static route storage.
 
 }
 
+//just adds a map, doesn't replace the old one.
+function addMap(map, route) {
+  var curRoutes = directionsDisplay.getDirections();
+  var retRoutes;
+  if(curRoutes !== undefined && curRoutes.constructor === Array)
+  {
+    curRoutes.push(route);
+    retroutes = curRoutes;
+  }
+  else if(curRoutes !== undefined)
+  {
+    retRoutes = [curRoutes, route];
+  }
+  else {
+    retRoutes = [route];
+  }
+  directionsDisplay.setMap(map);  
+  directionsDisplay.setDirections({routes: retRoutes});
+}
+//Displays a single route
+function displayMap(map, route) {
+  directionsDisplay.setMap(map);  
+  directionsDisplay.setDirections(route); 
+}
 //function returns the recommended method/s of transportation
 function recommendTransType(place) {
   var recommendedTypes = new Array();
@@ -139,15 +165,6 @@ function recommendTransType(place) {
   //in case multiple forms of transportation are recommended equally
   return recommendedTypes;
 }
-
-function displayMap(map, route, status) {
-  var directionsDisplay = new google.maps.DirectionsRenderer();
-  directionsDisplay.setMap(map);
-  if (status == google.maps.DirectionsStatus.OK) {
-    directionsDisplay.setDirections(route);
-  }
-}
-
   //commented out for convenient debugging.
   // function calcRoute(place, transType, directionsServ, map) {
  
