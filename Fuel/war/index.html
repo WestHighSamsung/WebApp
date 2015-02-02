@@ -121,6 +121,7 @@
           {{#if App.FBUser.address}}
 
             {{google-maps}}
+            {{carbon-table}}
             {{outlet}}
 
           {{/if}}
@@ -145,8 +146,7 @@
           <div class="col-lg-8 col-lg-offset-2 centered">
              <img id="west" src="img/logo4.png" alt="West Connect">
               <h1>{{App.title}}</h1>
-              <p>West Cpmmect is a rea;;y cool app dedicated to tuna and other cool stugff. With west connect you can provide interesting tunas for the dynamiamsismcs of tuna.
-              Lets getstarted.</p>
+              <p>In an effort to help clean the air, West Connect is a tool to help you improve your efficiency to get to West High School!</p>
 
               
               {{#if App.FBrunning}}
@@ -208,7 +208,7 @@
     </script>
 
     <script type="text/x-handlebars" id="components/carbon-table">
-      <!---<button class = "btn btn-default" {{action "trap"}}>Display Table</button>-->
+      <button class = "btn btn-default" {{action "trap"}}>Display Table</button>
       <div class = "table-responsive">
         <table class = "table table-striped" id="table-data">
         </table>
@@ -220,7 +220,8 @@
     <script type="text/x-handlebars" id="about">
         <div class="container">
           <div class = "jumbotron">
-            <h1>Save THE PLANET on THIS ABOUT PAGE!</h1>
+            <h1>About West Connect:</h1>
+            <p>This app was developed by West High Students as part of Samsung's 2015 <a href="http://www.samsung.com/us/solvefortomorrow/home.html">Solve for Tomorrow contest</a>.  West High School is located in Salt Lake City, Utah, home of the mighty panthers!</p>
           </div>
         </div>
     </script>

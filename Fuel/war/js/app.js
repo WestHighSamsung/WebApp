@@ -126,6 +126,7 @@ $.fn.scrollView = function () {
 
 //needs to contain an array of arrays. Each sub array is a different mode.
 App.CarbonTableComponent = Ember.Component.extend({
+  actions: {
     trap: function() {
       var container = this.$("#table-data");
       var output = "<thead>\n<tr>\n<th>Type</th>\n<th>Distance</th>\n<th>Duration</th>\n<th>Emissions</th>\n</thead>";
@@ -138,7 +139,8 @@ App.CarbonTableComponent = Ember.Component.extend({
         
         var transTypes = RouteClass.transTypes;
         for(i = 0; i < transTypes.length; i++){
-          output += "\n<tr>\n<td><b>"+transTypes[i]+"</b></td>";
+          console.log(colors[i]);
+          output += "\n<tr>\n<td style=\"color:"+colors[i]+"\"><b>"+transTypes[i]+"</b></td>";
           var routeInfo = routes[transTypes[i]];
           for(j = 0; j < routeInfo.strings.length; j++){
             output += "\n<td>"+routeInfo.strings[j]+"</td>";  
@@ -147,7 +149,8 @@ App.CarbonTableComponent = Ember.Component.extend({
         }
         container.html(output);
       } 
-    }.observes('App.GoogleMapsComponent')
+    }
+  }
 });
 
 App.GoogleMapsComponent = Ember.Component.extend({
@@ -167,15 +170,25 @@ App.GoogleMapsComponent = Ember.Component.extend({
     var input =($('#searchbar')[0]);
     //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
     var searchBox = new google.maps.places.Autocomplete(input);
+    
+
+
+
+    var geocoder = new google.maps.Geocoder();
+    var addy = $('#searchbar').val();
+    geocoder.geocode({'address': addy}, function(results, status){
+      if (status == google.maps.GeocoderStatus.OK) {
+        var place = results[0];
+        allRoutes(place, directionsService, map);
+      }
+      else{
+        alert("invalid address");
+      }
+    })
+    
     google.maps.event.addListener(searchBox, 'place_changed', function() {
       var place = searchBox.getPlace();
-      var transTypes = RouteClass.transTypes;//ease
-      //array for the different modes of travel
-      var routes = [];
-      //currently saves then displays map.
-      for(j = 0; j < transTypes.length; j++){
-        calcRoute(place.geometry.location, transTypes[j], directionsService, map);
-      }
+      allRoutes(place, directionsService, map);
     });
     google.maps.event.addListener(map, 'bounds_changed', function() {
       var bounds = map.getBounds();

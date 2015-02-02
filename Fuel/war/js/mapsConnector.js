@@ -33,6 +33,16 @@ function RouteClass(route, type) {
 function format(n){
   return n.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
 }
+//place must 
+function allRoutes(place, directionsService, map){
+  var transTypes = RouteClass.transTypes;//ease
+  //array for the different modes of travel
+  var routes = [];
+  //currently saves then displays map.
+  for(j = 0; j < transTypes.length; j++){
+    calcRoute(place.geometry.location, transTypes[j], directionsService, map);
+  }
+}
 //input seconds and return time in format: hh hours, mm minutes, ss seconds
 function timeFormat(sec){
   var hours = sec/3600;
@@ -63,7 +73,23 @@ function timeFormat(sec){
 RouteClass.routes = {};
 RouteClass.hasRoutes = false;
 RouteClass.transTypes = ['WALKING','BICYCLING', 'TRANSIT','DRIVING'];
-var directionsDisplay = new google.maps.DirectionsRenderer();
+RouteClass.colors = ['#FF0000', '#00FF00', '#0000FF', '#FF00FF'];
+var colors = RouteClass.colors;
+var directionsDisplay = {};
+//initialize directionsDisplay
+for(i = 0; i < RouteClass.transTypes.length; i++)
+{
+  var polylineOptionsReal = new google.maps.Polyline({
+    strokeColor: colors[i],
+    strokeOpacity: 0.8,
+    strokeWeight: 5
+    });
+  var options = {
+    polylineOptions: polylineOptionsReal
+  }
+  directions = new google.maps.DirectionsRenderer(options);
+  directionsDisplay[RouteClass.transTypes[i]] = directions;
+}
 //function takes the starting location and transportation type and outputs a route object
 function calcRoute(place, transType, directionsService, map){ 
   var request = {
@@ -73,14 +99,15 @@ function calcRoute(place, transType, directionsService, map){
   };
 
   if(transType === undefined) {
-    console.log(transType);
-  }
+    console.log(transType)
+;  }
   directionsService.route(request, function(response, status) {
+    var renderer = directionsDisplay[transType];
     var trans = RouteClass.transTypes;
     RouteClass.hasRoutes = true;
     RouteClass.routes[transType] = new RouteClass(response, transType);
     if (status == google.maps.DirectionsStatus.OK) {
-      addMap(map, response);
+      displayMap(map, response, renderer);
     }
     var tableDiv = $("#table-data");
     tableDiv.show();
@@ -92,6 +119,7 @@ function calcRoute(place, transType, directionsService, map){
 }
 
 //just adds a map, doesn't replace the old one.
+//currently not in use 
 function addMap(map, route) {
   var curRoutes = directionsDisplay.getDirections();
   var retRoutes;
@@ -111,7 +139,8 @@ function addMap(map, route) {
   directionsDisplay.setDirections({routes: retRoutes});
 }
 //Displays a single route
-function displayMap(map, route) {
+function displayMap(map, route, directionsDisplay) {
+  console.log("displayMap()");
   directionsDisplay.setMap(map);  
   directionsDisplay.setDirections(route); 
 }
@@ -165,39 +194,3 @@ function recommendTransType(place) {
   //in case multiple forms of transportation are recommended equally
   return recommendedTypes;
 }
-  //commented out for convenient debugging.
-  // function calcRoute(place, transType, directionsServ, map) {
- 
-  // var directionsDisplay = new google.maps.DirectionsRenderer();
-  // directionsDisplay.setMap(map);
-  // var request = {
-  //     origin: place,
-  //     destination: westhigh,
-  //     travelMode: google.maps.TravelMode[transType]
-  // };
-  // var retJSON;
-  // //may be a good idea to make this its own function.
-  // directionsServ.route(request, function(response, status) {
-  //   dist = response.routes[0].legs[0].distance.value;
-  //   time = response.routes[0].legs[0].duration.value;
-  //   if(transType === "DRIVING") {
-  //     carbon = distance*1609.34*430;
-  //   } else if(transType === "TRANSIT") {
-  //     carbon = distance*10;//this is currently a wrong value; fix it
-  //   } else {
-  //     carbon = 0;
-  //   }
-
-  //   console.log(distance + " "+ time + " "+ carbon);
-  //   retJSON = {
-  //      distance: dist,  
-  //      duration: time, 
-  //      emissions: carbon, 
-  //      route:response
-  //   };
-  //   if (status == google.maps.DirectionsStatus.OK) {
-  //     directionsDisplay.setDirections(response);
-  //   }
-  // });
-  // return retJSON;
-//}
