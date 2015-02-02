@@ -139,7 +139,8 @@ App.CarbonTableComponent = Ember.Component.extend({
         
         var transTypes = RouteClass.transTypes;
         for(i = 0; i < transTypes.length; i++){
-          output += "\n<tr>\n<td><b>"+transTypes[i]+"</b></td>";
+          console.log(colors[i]);
+          output += "\n<tr>\n<td style=\"color:"+colors[i]+"\"><b>"+transTypes[i]+"</b></td>";
           var routeInfo = routes[transTypes[i]];
           for(j = 0; j < routeInfo.strings.length; j++){
             output += "\n<td>"+routeInfo.strings[j]+"</td>";  
@@ -195,16 +196,7 @@ App.GoogleMapsComponent = Ember.Component.extend({
     });
 	}.on('didInsertElement')
 });
-//place must 
-function allRoutes(place, directionsService, map){
-  var transTypes = RouteClass.transTypes;//ease
-  //array for the different modes of travel
-  var routes = [];
-  //currently saves then displays map.
-  for(j = 0; j < transTypes.length; j++){
-    calcRoute(place.geometry.location, transTypes[j], directionsService, map);
-  }
-}
+
 App.AddressInputComponent = Ember.Component.extend({
   insert: function(){
     var input =($('#radr')[0]);

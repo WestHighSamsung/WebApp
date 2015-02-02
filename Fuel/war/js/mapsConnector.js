@@ -33,6 +33,16 @@ function RouteClass(route, type) {
 function format(n){
   return n.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
 }
+//place must 
+function allRoutes(place, directionsService, map){
+  var transTypes = RouteClass.transTypes;//ease
+  //array for the different modes of travel
+  var routes = [];
+  //currently saves then displays map.
+  for(j = 0; j < transTypes.length; j++){
+    calcRoute(place.geometry.location, transTypes[j], directionsService, map);
+  }
+}
 //input seconds and return time in format: hh hours, mm minutes, ss seconds
 function timeFormat(sec){
   var hours = sec/3600;
@@ -63,7 +73,8 @@ function timeFormat(sec){
 RouteClass.routes = {};
 RouteClass.hasRoutes = false;
 RouteClass.transTypes = ['WALKING','BICYCLING', 'TRANSIT','DRIVING'];
-var colors = ['#FF0000', '#00FF00', '#0000FF', '#FF00FF'];
+RouteClass.colors = ['#FF0000', '#00FF00', '#0000FF', '#FF00FF'];
+var colors = RouteClass.colors;
 var directionsDisplay = {};
 //initialize directionsDisplay
 for(i = 0; i < RouteClass.transTypes.length; i++)
