@@ -121,6 +121,7 @@
           {{#if App.FBUser.address}}
 
             {{google-maps}}
+            {{carbon-table}}
             {{outlet}}
 
           {{/if}}
@@ -208,7 +209,7 @@
     </script>
 
     <script type="text/x-handlebars" id="components/carbon-table">
-      <!---<button class = "btn btn-default" {{action "trap"}}>Display Table</button>-->
+      <button class = "btn btn-default" {{action "trap"}}>Display Table</button>
       <div class = "table-responsive">
         <table class = "table table-striped" id="table-data">
         </table>

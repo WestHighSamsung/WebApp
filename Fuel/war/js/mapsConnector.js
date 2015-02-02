@@ -88,8 +88,8 @@ function calcRoute(place, transType, directionsService, map){
   };
 
   if(transType === undefined) {
-    console.log(transType);
-  }
+    console.log(transType)
+;  }
   directionsService.route(request, function(response, status) {
     var renderer = directionsDisplay[transType];
     var trans = RouteClass.transTypes;
@@ -183,39 +183,3 @@ function recommendTransType(place) {
   //in case multiple forms of transportation are recommended equally
   return recommendedTypes;
 }
-  //commented out for convenient debugging.
-  // function calcRoute(place, transType, directionsServ, map) {
- 
-  // var directionsDisplay = new google.maps.DirectionsRenderer();
-  // directionsDisplay.setMap(map);
-  // var request = {
-  //     origin: place,
-  //     destination: westhigh,
-  //     travelMode: google.maps.TravelMode[transType]
-  // };
-  // var retJSON;
-  // //may be a good idea to make this its own function.
-  // directionsServ.route(request, function(response, status) {
-  //   dist = response.routes[0].legs[0].distance.value;
-  //   time = response.routes[0].legs[0].duration.value;
-  //   if(transType === "DRIVING") {
-  //     carbon = distance*1609.34*430;
-  //   } else if(transType === "TRANSIT") {
-  //     carbon = distance*10;//this is currently a wrong value; fix it
-  //   } else {
-  //     carbon = 0;
-  //   }
-
-  //   console.log(distance + " "+ time + " "+ carbon);
-  //   retJSON = {
-  //      distance: dist,  
-  //      duration: time, 
-  //      emissions: carbon, 
-  //      route:response
-  //   };
-  //   if (status == google.maps.DirectionsStatus.OK) {
-  //     directionsDisplay.setDirections(response);
-  //   }
-  // });
-  // return retJSON;
-//}
