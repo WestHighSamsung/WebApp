@@ -21,11 +21,8 @@
                 <div class=".navbar-header">
                   <!-- Title -->
 
-               {{#if App.FBUser}}
-                  {{#link-to 'index' class="navbar-brand"}}{{App.title}}{{/link-to}}
-                {{else}}
-                  {{#link-to 'login' class="navbar-brand"}}{{App.title}}{{/link-to}}
-                {{/if}}
+                  {{#link-to index class="navbar-brand"}}{{App.title}}{{/link-to}}
+
               <!-- Nav button-->
               <button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
                 <span class = "icon-bar"></span>
@@ -36,27 +33,26 @@
 
             <div class = "collapse navbar-collapse navHeaderCollapse">
               <ul class = "nav navbar-nav navbar-left">
-                <li class = "active">
-                {{#if App.FBUser}}
-                  {{#link-to 'index'}}Home{{/link-to}}
-                {{else}}
-                  {{#link-to 'login'}}Home{{/link-to}}
-                {{/if}}
-                </li> 
-                <li>{{#link-to 'about'}}About{{/link-to}}</li> 
+                {{#link-to 'index' tagName="li"}}
+                  <a {{bind-attr href="view.href"}}>Home</a>
+                {{/link-to}}
+                {{#link-to 'about' tagName="li"}}
+                  <a {{bind-attr href="view.href"}}>About</a>
+                {{/link-to}}
               </ul>
 
               <ul class = "nav navbar-nav navbar-right">
-                <li>
                   {{#if App.FBrunning}}
                     {{#if App.FBloading}}
                      <p id = "sinfo" align="center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                     {{else}}
                       {{#if App.FBUser}}
-                        
-                          <a {{action 'logout'}}><img {{bindAttr src="App.FBUser.picture" alt="App.FBUser.name"}} id="fbimg"/>{{App.FBUser.name}} <small>Logout</small> </a>
+                          <li>
+                          <a {{action 'logout'}}><img {{bindAttr src="App.FBUser.picture" alt="App.FBUser.name"}} id="fbimg"/> {{App.FBUser.name}} <small>Logout</small> </a></li>
                       {{else}}
-                        {{#link-to 'login'}}Login{{/link-to}}
+                          {{#link-to 'login' tagName="li"}}
+                            <a {{bind-attr href="view.href"}}>Login</a>
+                          {{/link-to}}
                       {{/if}}
                     {{/if}}
                   {{else}}
@@ -218,12 +214,19 @@
     <!-- THE ABOUT PAGE U DUMB -->
         <!-- THE FRONT PAGE -->
     <script type="text/x-handlebars" id="about">
+      <div id="ww">
         <div class="container">
-          <div class = "jumbotron">
-            <h1>About West Connect:</h1>
-            <p>This app was developed by West High Students as part of Samsung's 2015 <a href="http://www.samsung.com/us/solvefortomorrow/home.html">Solve for Tomorrow contest</a>.  West High School is located in Salt Lake City, Utah, home of the mighty panthers!</p>
-          </div>
-        </div>
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 centered">
+               <img id="west" src="img/logo4.png" alt="West Connect">
+                <h1>About {{App.title}}</h1>
+                <p>This app was developed by West High Students as part of Samsungs 2015 <a href="http://www.samsung.com/us/solvefortomorrow/home.html">Solve for Tomorrow contest</a>.  West High School is located in Salt Lake City, Utah, home of the mighty panthers!</p>
+                
+            
+            </div><!-- /col-lg-8 -->
+          </div><!-- /row -->
+          </div> <!-- /container -->
+      </div><!-- /ww -->
     </script>
 
 
