@@ -124,6 +124,7 @@ App.LoginRegisterRoute = Ember.Route.extend({
 });
 
 
+
 $.fn.scrollView = function () {
     return this.each(function () {
         $('html, body').animate({

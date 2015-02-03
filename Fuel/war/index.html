@@ -33,9 +33,15 @@
 
             <div class = "collapse navbar-collapse navHeaderCollapse">
               <ul class = "nav navbar-nav navbar-left">
+              {{#if App.FBUser.address}}
                 {{#link-to 'index' tagName="li"}}
                   <a {{bind-attr href="view.href"}}>Home</a>
                 {{/link-to}}
+              {{else}}
+                <li>
+                  {{#link-to 'login'}}Home{{/link-to}}
+                </li>
+              {{/if}}
                 {{#link-to 'about' tagName="li"}}
                   <a {{bind-attr href="view.href"}}>About</a>
                 {{/link-to}}
@@ -100,6 +106,7 @@
 
     <!-- THE FRONT PAGE -->
     <script type="text/x-handlebars" id="index">
+      <div id="ww">
         <div class="container">
           <div class = "jumbotron">
           {{#if App.FBUser.address}}
@@ -117,10 +124,15 @@
           {{#if App.FBUser.address}}
 
             {{google-maps}}
-            {{carbon-table}}
-            {{outlet}}
+            
+            
 
           {{/if}}
+        </div>
+        </div>
+        <div id="white">
+        {{carbon-table}}
+        {{outlet}}
         </div>
     </script>
 
