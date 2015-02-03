@@ -23,7 +23,6 @@ App.ApplicationController = Ember.Controller.extend({
   }
 });
 
-
 App.IndexRoute = Ember.Route.extend({
   beforeModel: function(transition){
     console.log('hello');
@@ -51,7 +50,7 @@ App.LoginRoute = Ember.Route.extend({
         console.log('goodbye');
       }
       else
-          return true;
+        return true;
   },
   activate: function(){
     this._super();
@@ -123,7 +122,50 @@ App.LoginRegisterRoute = Ember.Route.extend({
   }
 });
 
+//needs to contain an array of arrays. Each sub array is a different mode.
+App.IndexCarbonRoute = Ember.Route.extend({
+  model: function(){
+    if(RouteClass.hasRoutes){
+      var results = [];
+      var routes = RouteClass.routes;
+      var transTypes = RouteClass.transTypes;
+      console.log("lol");
+      for(i = 0; i < transTypes.length; i++)
+          results.push({
+            color: "color: " + colors[i] + ";",
+            trans: transTypes[i],
+            distance:routes[transTypes[i]].strings[0],
+            duration:routes[transTypes[i]].strings[1],
+            emissions: routes[transTypes[i]].strings[2]
+          });
+      return {maps: results};
+    }
+  }
+});
+//   model: function(){
+//     var container = $("#table-data");
+//     var output = "";
+//     //makes sure to check that it has routes
+//     if(RouteClass.hasRoutes){
 
+//       //this is the routes for different types of transports.
+//       var routes = RouteClass.routes;
+//       //this will construct the table
+//       console.log("lol");
+//       var transTypes = RouteClass.transTypes;
+//       for(i = 0; i < transTypes.length; i++){
+//         console.log(colors[i]);
+//         output += "\n<tr>\n<td style=\"color:"+colors[i]+"\"><b>"+transTypes[i]+"</b></td>";
+//         var routeInfo = routes[transTypes[i]];
+//         for(j = 0; j < routeInfo.strings.length; j++){
+//           output += "\n<td>"+routeInfo.strings[j]+"</td>";  
+//         }
+//         output +="\n</tr>";
+//       }
+//       container.html(output);
+//     } 
+//   }
+// });
 
 $.fn.scrollView = function () {
     return this.each(function () {
@@ -133,34 +175,7 @@ $.fn.scrollView = function () {
     });
 }
 
-//needs to contain an array of arrays. Each sub array is a different mode.
-App.CarbonTableComponent = Ember.Component.extend({
-  actions: {
-    trap: function() {
-      var container = this.$("#table-data");
-      var output = "<thead>\n<tr>\n<th>Type</th>\n<th>Distance</th>\n<th>Duration</th>\n<th>Emissions</th>\n</thead>";
-      //makes sure to check that it has routes
-      if(RouteClass.hasRoutes){
 
-        //this is the routes for different types of transports.
-        var routes = RouteClass.routes;
-        //this will construct the table
-        
-        var transTypes = RouteClass.transTypes;
-        for(i = 0; i < transTypes.length; i++){
-          console.log(colors[i]);
-          output += "\n<tr>\n<td style=\"color:"+colors[i]+"\"><b>"+transTypes[i]+"</b></td>";
-          var routeInfo = routes[transTypes[i]];
-          for(j = 0; j < routeInfo.strings.length; j++){
-            output += "\n<td>"+routeInfo.strings[j]+"</td>";  
-          }
-          output +="\n</tr>";
-        }
-        container.html(output);
-      } 
-    }
-  }
-});
 
 App.GoogleMapsComponent = Ember.Component.extend({
   insertMap: function() {
@@ -213,3 +228,17 @@ App.AddressInputComponent = Ember.Component.extend({
     var searchBox = new google.maps.places.Autocomplete(input);
   }.on('didInsertElement')
 });
+
+//RADIO BUTTONS
+Ember.RadioButton = Ember.View.extend({  
+    tagName : "input",
+    type : "radio",
+    attributeBindings : [ "name", "type", "value", "checked:checked:" ],
+    click : function() {
+        this.set("selection", this.$().val())
+    },
+    checked : function() {
+        return this.get("value") == this.get("selection");   
+    }.property()
+});
+
