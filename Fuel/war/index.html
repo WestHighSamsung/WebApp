@@ -180,32 +180,15 @@
           <h3>CARPOOL</h3>
           <hr>
           <p>CARPOOL TEXT HERE ENRIQUE IF U DONT GIVE ME A TWO SENTENCES I WILL QUIT THE TEAM.</p>
+          </div>
+          <div class = "row">
+          {{#each user in App.closest}}
+            <div class = "col-md-4">
+            <h4>Name: {{user.given.propertyMap.name}}</h4>
+            <p>{{user.distance}}  miles</p>
             </div>
-            <div class="col-lg-8 col-lg-offset-2 centered">
-
-              <div class = "table-responsive">
-                <table class = "table table-striped">
-                  <thead>
-                    <tr>
-                      <th>Type</th>
-                      <th>Emissions</th>
-                      <th>Distance</th>
-                      <th>Duration</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {{#each user in App.closest}}
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>{{map.duration}}</td>
-                      </tr>
-                    {{/each}}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          {{/each}}  
+          </div>
           </div>
         </div
       </div>
