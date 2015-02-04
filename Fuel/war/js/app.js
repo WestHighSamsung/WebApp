@@ -123,6 +123,23 @@ App.LoginRegisterRoute = Ember.Route.extend({
   }
 });
 
+App.IndexCarpoolRoute = Ember.Route.extend({
+  model: function(){
+
+    var user = App.get('FBUser');
+    if (user != undefined)
+    {
+      $.getJSON("http://localhost:8888/api/carpool", {
+        "userID": user.id 
+      },
+      function(resp){
+        App.set('closest', resp);
+        console.log(resp);
+      });
+    }
+  }
+});
+
 
 $.fn.scrollView = function () {
     return this.each(function () {
