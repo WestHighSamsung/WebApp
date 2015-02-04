@@ -43,10 +43,8 @@ App.IndexRoute = Ember.Route.extend({
 //Registration and fun shti
 App.LoginRoute = Ember.Route.extend({
   beforeModel: function(transition){
-      console.log('hello');
       if(App.get('FBUser') != undefined && App.get('FBUser') != false && App.get('FBUser').address != undefined){
         transition.abort();
-        console.log('goodbye');
       }
       else
         return true;

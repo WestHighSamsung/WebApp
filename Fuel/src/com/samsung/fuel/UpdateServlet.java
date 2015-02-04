@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tools.ant.types.CommandlineJava.SysProperties;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -52,16 +54,17 @@ public class UpdateServlet extends HttpServlet
 				//If parameter is address
 				//Convert address into lat and long
 				//Update into the datastore
+				
 				if(parameter.equals("address"))
 				{
 					GoogleResponse res = new AddressConverter().convertToLatLong(req.getParameter(parameter));
 					if(res.getStatus().equals("OK"))
-					{
-						for(Result result: res.getResults())
-						{
-							user.setProperty("lat",result.getGeometry().getLocation().getLat());
-							user.setProperty("lng",result.getGeometry().getLocation().getLng());
-						}
+					{	
+						//for(Result result: res.getResults())
+						//{
+							user.setProperty("lat",res.getResults()[0].getGeometry().getLocation().getLat());
+							user.setProperty("lng",res.getResults()[0].getGeometry().getLocation().getLng());
+						//}
 					}
 				}
 				
@@ -71,7 +74,9 @@ public class UpdateServlet extends HttpServlet
 			//Enter into datastore
 			datastore.put(user);
 		}
-		catch(EntityNotFoundException e){}
+		catch(EntityNotFoundException e){
+			System.out.println("Entity not found");
+		}
 
 		//Returns json output of object
 		Gson translate = new Gson();
