@@ -128,50 +128,48 @@
         </div>
         </div>
       </div>
+      <div class="white">
+        <div class="container">
+          <div class="row">
+          <div class="col-lg-6 col-lg-offset-3 centered">
+          <h3>CARBON CALCULATOR</h3>
+          <hr>
+          <p>In order to make the most environmentally friendly decision, West Connect's advanced algorithms will calculate carbon emissions for each possible route from your address to West.</p><!--'-->
+            </div>
+            <div class="col-lg-8 col-lg-offset-2 centered">
+
+              <div class = "table-responsive">
+                <table class = "table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>Emissions</th>
+                      <th>Distance</th>
+                      <th>Duration</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each map in App.maps}}
+                      <tr>
+                        <td {{bind-attr style=map.color}}>{{map.trans}}</td>
+                        <td>{{map.emissions}}</td>
+                        <td>{{map.distance}}</td>
+                        <td>{{map.duration}}</td>
+                      </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div
+      </div>
       {{outlet}}
     </script>
 
 
 
-    <!-- Put the map canvas and the list here.-->
-    <script type="text/x-handlebars" id="index/carbon">
-    <div class="white">
-      <div class="container">
-        <div class="row">
-        <div class="col-lg-6 col-lg-offset-3 centered">
-        <h3>CARBON CALCULATOR</h3>
-        <hr>
-        <p>In order to make the most environmentally friendly decision, West Connect's advanced algorithms will calculate carbon emissions for each possible route from your address to West.</p><!--'-->
-          </div>
-          <div class="col-lg-8 col-lg-offset-2 centered">
 
-            <div class = "table-responsive">
-              <table class = "table table-striped">
-              <thead>
-                <tr>
-                  <th>Type</th>
-                  <th>Distance</th>
-                  <th>Duration</th>
-                  <th>Emissions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {{#each map in maps}}
-                  <tr>
-                    <td {{bind-attr style=map.color}}>{{map.trans}}</td>
-                    <td>{{map.distance}}</td>
-                    <td>{{map.duration}}</td>
-                    <td>{{map.emissions}}</td>
-                  </tr>
-                {{/each}}
-              </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div
-    </div>
-    </script>
 
     <!-- Put all carpool stuff here -->
     <script type="text/x-handlebars" id="index/carpool">
@@ -222,26 +220,25 @@
             <div class="col-lg-8 col-lg-offset-2">
               <h3>Register</h3>
               <hr/>
-              <p>To get started, please fill out some information about yourself so that we can optimize your experience. This stuff helps you and us find the most optimal route to West.</p>
+              <p>To get started, please fill out some information about yourself so that we can optimize your experience. This stuff helps you and us find the most optimal route to West. {{isDriving}}</p>
                 <label>Address</label>
                 {{address-input}}
                 <br/>
                 <label> How do you get to school? </label>
                 <div class="input-group input-group-lg">
                   <div class="radio">
-                    <label>{{view Ember.RadioButton name="trans" selectionBinding="isNotDriving" value="0"}}Walking</label>
+                    <label>{{view Ember.RadioButton name="trans" selectionBinding="isDriving" value=""}}Walking</label>
                   </div>
                   <div class="radio">
-                    <label>{{view Ember.RadioButton name="trans" selectionBinding="isNotDriving" value="0"}}Biking</label>
+                    <label>{{view Ember.RadioButton name="trans" selectionBinding="isDriving" value=""}}Biking</label>
                   </div>
                   <div class="radio">
-                    <label>{{view Ember.RadioButton name="trans" selectionBinding="isDriving" value="0"}}Driving</label>
+                    <label>{{view Ember.RadioButton name="trans" selectionBinding="isDriving" value="true"}}Driving</label>
                   </div>
                   <div class="radio">
-                    <label>{{view Ember.RadioButton name="trans" selectionBinding="isNotDriving" value="0"}}Public Transit</label>
+                    <label>{{view Ember.RadioButton name="trans" selectionBinding="isDriving" value=""}}Public Transit</label>
                   </div>
                 </div>
-                {{#unless isNotDriving}}
                 {{#if isDriving}}
                 <label>Because you selected that you drive, are you willing to carpool?</label>
                 <div class="input-group input-group-lg">
@@ -249,7 +246,6 @@
                   <label class="radio-inline"><input type="radio" name="carpool">No</label>
                 </div>
                 {{/if}}
-                {{/unless}}
               <button type="submit" class="btn btn-primary" {{action "doRegister"}}>Register</button>
             </div>
 
@@ -266,7 +262,7 @@
     <script type="text/x-handlebars" id="components/address-input">
        <div class="input-group input-group-lg">
       <span class="input-group-addon" id="sizing-addon1">@</span>
-        {{input type="text" class="form-control" placeholder="123 Long Ave." aria-describedby="sizing-addon1" id="radr"}}
+        {{input type="text" class="form-control" placeholder="123 Long Ave. F"  aria-describedby="sizing-addon1" id="radr"}}
        </div>
     </script>
 

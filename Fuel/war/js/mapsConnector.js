@@ -34,13 +34,13 @@ function format(n){
   return n.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
 }
 //place must 
-function allRoutes(place, directionsService, map){
+function allRoutes(place, directionsService, map, cb){
   var transTypes = RouteClass.transTypes;//ease
   //array for the different modes of travel
   var routes = [];
   //currently saves then displays map.
   for(j = 0; j < transTypes.length; j++){
-    calcRoute(place.geometry.location, transTypes[j], directionsService, map);
+    calcRoute(place.geometry.location, transTypes[j], directionsService, map,cb);
   }
 }
 //input seconds and return time in format: hh hours, mm minutes, ss seconds
@@ -91,16 +91,16 @@ for(i = 0; i < RouteClass.transTypes.length; i++)
   directionsDisplay[RouteClass.transTypes[i]] = directions;
 }
 //function takes the starting location and transportation type and outputs a route object
-function calcRoute(place, transType, directionsService, map){ 
+function calcRoute(place, transType, directionsService, map, cb){ 
   var request = {
       origin: place,
       destination: westhigh,
       travelMode: google.maps.TravelMode[transType]
   };
 
-  if(transType === undefined) {
-    console.log(transType)
-;  }
+  if(transType === undefined) 
+    console.log(transType);  
+
   directionsService.route(request, function(response, status) {
     var renderer = directionsDisplay[transType];
     var trans = RouteClass.transTypes;
@@ -114,6 +114,8 @@ function calcRoute(place, transType, directionsService, map){
     // if(tableDiv.is(":visibile")){
     //   tableDiv.show();
     // }
+
+    cb();
   });
 
 }

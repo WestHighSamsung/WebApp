@@ -6,7 +6,6 @@ Ember.LOG_STACKTRACE_ON_DEPRECATION = false;
 
 App.Router.map(function(){
 	this.resource('index', {path:'/'}, function(){
-		this.route('carbon');
 		this.route('carpool');
 	});
 	this.resource('login', {path: '/login'}, function(){
@@ -104,6 +103,8 @@ App.LoginRegisterRoute = Ember.Route.extend({
   },
   actions:{
     doRegister: function(){
+      //VALIDATE FIELDS
+
 
       var _this = this;
       var address = $("#radr").val();
@@ -122,50 +123,6 @@ App.LoginRegisterRoute = Ember.Route.extend({
   }
 });
 
-//needs to contain an array of arrays. Each sub array is a different mode.
-App.IndexCarbonRoute = Ember.Route.extend({
-  model: function(){
-    if(RouteClass.hasRoutes){
-      var results = [];
-      var routes = RouteClass.routes;
-      var transTypes = RouteClass.transTypes;
-      console.log("lol");
-      for(i = 0; i < transTypes.length; i++)
-          results.push({
-            color: "color: " + colors[i] + ";",
-            trans: transTypes[i],
-            distance:routes[transTypes[i]].strings[0],
-            duration:routes[transTypes[i]].strings[1],
-            emissions: routes[transTypes[i]].strings[2]
-          });
-      return {maps: results};
-    }
-  }
-});
-//   model: function(){
-//     var container = $("#table-data");
-//     var output = "";
-//     //makes sure to check that it has routes
-//     if(RouteClass.hasRoutes){
-
-//       //this is the routes for different types of transports.
-//       var routes = RouteClass.routes;
-//       //this will construct the table
-//       console.log("lol");
-//       var transTypes = RouteClass.transTypes;
-//       for(i = 0; i < transTypes.length; i++){
-//         console.log(colors[i]);
-//         output += "\n<tr>\n<td style=\"color:"+colors[i]+"\"><b>"+transTypes[i]+"</b></td>";
-//         var routeInfo = routes[transTypes[i]];
-//         for(j = 0; j < routeInfo.strings.length; j++){
-//           output += "\n<td>"+routeInfo.strings[j]+"</td>";  
-//         }
-//         output +="\n</tr>";
-//       }
-//       container.html(output);
-//     } 
-//   }
-// });
 
 $.fn.scrollView = function () {
     return this.each(function () {
@@ -203,7 +160,22 @@ App.GoogleMapsComponent = Ember.Component.extend({
     geocoder.geocode({'address': addy}, function(results, status){
       if (status == google.maps.GeocoderStatus.OK) {
         var place = results[0];
-        allRoutes(place, directionsService, map);
+        allRoutes(place, directionsService, map,
+          function(){
+            var results = [];
+            var routes = RouteClass.routes;
+            var transTypes = RouteClass.transTypes;
+            console.log("lol");
+            for(i = 0; i < transTypes.length; i++)
+              results.push({
+                color: "color: " + colors[i] + ";",
+                trans: transTypes[i],
+                distance:routes[transTypes[i]].strings[0],
+                duration:routes[transTypes[i]].strings[1],
+                emissions: routes[transTypes[i]].strings[2]
+              });
+            App.set('maps', results);
+          });
       }
       else{
         alert("invalid address");
@@ -238,7 +210,9 @@ Ember.RadioButton = Ember.View.extend({
         this.set("selection", this.$().val())
     },
     checked : function() {
+        console.log(this.get("value"));
         return this.get("value") == this.get("selection");   
-    }.property()
+    }.property(),
+
 });
 

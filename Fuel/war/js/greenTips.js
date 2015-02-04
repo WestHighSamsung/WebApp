@@ -13,6 +13,8 @@ var tips =[
   text: "It's good for the air, the land, can shade your house and save on cooling (plant on the west side of your home), and they can also improve the value of your property."},
  {title:"GIVE IT AWAY",
   text: "Before you throw something away, think about if someone else might need it. Either donate to a charitable organization or post it on a web site designed to connect people and things, such as Freecycle.org."}
+ ,{title: "GET MY D",
+  text: "SUCK MY FAT COCK"}
 ];
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -20,7 +22,7 @@ function getRandomInt(min, max) {
 
 function doTips(){
 	setTimeout(function(){
-	var r= getRandomInt(0,6);
+	var r= getRandomInt(0,7);
 	$("#tipText").animate({opacity: 0});
 	$("#tipTitle").animate({opacity:0},function(){
 		$("#tipTitle").text("Tip: "+ tips[r].title);
