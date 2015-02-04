@@ -79,7 +79,7 @@ public class CarpoolServlet extends HttpServlet
 						break;
 					index++;
 				}
-				closeOthers.add(index, new Neighbor(user, distance));
+				closeOthers.add(index, new Neighbor(user, distance*69.0));
 			}
 		}
 		for(Neighbor a: closeOthers)
