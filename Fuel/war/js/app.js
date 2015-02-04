@@ -164,7 +164,20 @@ $.fn.scrollView = function () {
 }
 
 
-
+function updateTable(){
+  var results = [];
+  var routes = RouteClass.routes;
+  var transTypes = RouteClass.transTypes;
+  for(i = 0; i < transTypes.length; i++)
+    results.push({
+      color: "color: " + colors[i] + ";",
+      trans: transTypes[i],
+      distance:routes[transTypes[i]].strings[0],
+      duration:routes[transTypes[i]].strings[1],
+      emissions: routes[transTypes[i]].strings[2]
+    });
+  App.set('maps', results);
+}
 App.GoogleMapsComponent = Ember.Component.extend({
   insertMap: function() {
 		var container = this.$(".map-canvas");
@@ -183,30 +196,12 @@ App.GoogleMapsComponent = Ember.Component.extend({
     //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
     var searchBox = new google.maps.places.Autocomplete(input);
     
-
-
-
     var geocoder = new google.maps.Geocoder();
     var addy = $('#searchbar').val();
     geocoder.geocode({'address': addy}, function(results, status){
       if (status == google.maps.GeocoderStatus.OK) {
         var place = results[0];
-        allRoutes(place, directionsService, map,
-          function(){
-            var results = [];
-            var routes = RouteClass.routes;
-            var transTypes = RouteClass.transTypes;
-            console.log("lol");
-            for(i = 0; i < transTypes.length; i++)
-              results.push({
-                color: "color: " + colors[i] + ";",
-                trans: transTypes[i],
-                distance:routes[transTypes[i]].strings[0],
-                duration:routes[transTypes[i]].strings[1],
-                emissions: routes[transTypes[i]].strings[2]
-              });
-            App.set('maps', results);
-          });
+        allRoutes(place, directionsService, map, updateTable);
       }
       else{
         alert("invalid address");
@@ -215,7 +210,7 @@ App.GoogleMapsComponent = Ember.Component.extend({
     
     google.maps.event.addListener(searchBox, 'place_changed', function() {
       var place = searchBox.getPlace();
-      allRoutes(place, directionsService, map);
+      allRoutes(place, directionsService, map, updateTable;
     });
     google.maps.event.addListener(map, 'bounds_changed', function() {
       var bounds = map.getBounds();
