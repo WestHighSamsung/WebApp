@@ -115,7 +115,7 @@ public class CarpoolServlet extends HttpServlet
 			distance = dist;
 
 			
-			DecimalFormat df = new DecimalFormat("#.##");
+			DecimalFormat df = new DecimalFormat("##.##");
 			sdist = df.format(distance);
 		}
 	}
