@@ -19,6 +19,10 @@
     visibility: hidden;
   }*/
 
+  #error{
+    display: none;
+  }
+
   #west{
     height=155px;
     width=155px;

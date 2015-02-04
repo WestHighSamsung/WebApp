@@ -74,7 +74,6 @@ App.LoginRoute = Ember.Route.extend({
       },
       function(resp){
         var val = resp.propertyMap;
-        console.log(val);
         if(val.address == "null"){
           //Begin the registration
           _this.transitionTo("login.register");
@@ -85,6 +84,7 @@ App.LoginRoute = Ember.Route.extend({
           console.log("going to go to the index");
           _this.transitionTo('index');
         }
+
 
       }).fail(function(a,s,d){
         console.log(a);
@@ -104,7 +104,19 @@ App.LoginRegisterRoute = Ember.Route.extend({
   actions:{
     doRegister: function(){
       //VALIDATE FIELDS
-
+      if($("#radr").val() == "" || App.get('isDriving') == undefined)
+      {
+        var content = "ERROR<br/>";
+        if($("#radr").val() == "")
+          content+= "* Please enter an address.<br/>";
+        if(App.get('isDriving') == undefined)
+          content+= "* Please choose a transportation method.";
+        $("#error").html('<div class="alert alert-danger" role="alert">'+content+'</div>')
+        if(!$("#error").is(':visible'))
+          $("#error").slideToggle(500);
+        console.log("uinvalid fields");
+        return;
+      }
 
       var _this = this;
       var address = $("#radr").val();
@@ -114,7 +126,9 @@ App.LoginRegisterRoute = Ember.Route.extend({
       $.getJSON("http://localhost:8888/api/update",
       {
         "userID": user.id,
-        "address": address
+        "address": address,
+        "isCarpool":App.get('isCarpool'),
+        "travelType": App.get('isDriving')
       },
       function(resp){
         _this.transitionTo('index');
