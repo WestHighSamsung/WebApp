@@ -112,8 +112,7 @@
           <div class = "jumbotron">
           {{#if App.FBUser.address}}
             
-              <h1>Check out your route options</h1>
-              <h3>or enter another address to see the carbon emissions of that certain route.</h3>
+              <h1>Save THE PLANET!</h1>
               {{input class = "controls" placeholder="Type a location" id="searchbar" value=App.FBUser.address}}
             
           {{else}}
@@ -155,50 +154,6 @@
                         <td {{bind-attr style=map.color}}>{{map.trans}}</td>
                         <td>{{map.emissions}}</td>
                         <td>{{map.distance}}</td>
-                        <td>{{map.duration}}</td>
-                      </tr>
-                    {{/each}}
-                  </tbody>
-                </table>
-              </div>
-              <h3>Carpool results</h3>
-              <div class="row">
-              {{#each carpool in App.carpools}}
-                <div class="col-md-4">{{carpool}}</div>
-                </div>
-            </div>
-          </div>
-        </div
-      </div>
-      <br/>
-
-
-      <div class="grey">
-        <div class="container">
-          <div class="row">
-          <div class="col-lg-6 col-lg-offset-3 centered">
-          <h3>CARPOOL</h3>
-          <hr>
-          <p>CARPOOL TEXT HERE ENRIQUE IF U DONT GIVE ME A TWO SENTENCES I WILL QUIT THE TEAM.</p>
-            </div>
-            <div class="col-lg-8 col-lg-offset-2 centered">
-
-              <div class = "table-responsive">
-                <table class = "table table-striped">
-                  <thead>
-                    <tr>
-                      <th>Type</th>
-                      <th>Emissions</th>
-                      <th>Distance</th>
-                      <th>Duration</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {{#each user in App.closest}}
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                         <td>{{map.duration}}</td>
                       </tr>
                     {{/each}}
