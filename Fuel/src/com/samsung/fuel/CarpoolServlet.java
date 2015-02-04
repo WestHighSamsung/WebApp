@@ -58,7 +58,7 @@ public class CarpoolServlet extends HttpServlet
 			System.out.println("User get properties" +sus.toJson(user));
 			if(user == null)
 				continue;
-			if(user.getNamespace().equals(accTok))
+			if(user.getProperty("userID").equals(accTok))
 				continue;
 			
 			System.out.println(user.getProperty("lat"));
@@ -106,8 +106,8 @@ public class CarpoolServlet extends HttpServlet
 	
 	public class Neighbor
 	{
-		Entity given;
-		double distance;
+		public Entity given;
+		public double distance;
 		public Neighbor(Entity e, double dist)
 		{
 			given = e;
