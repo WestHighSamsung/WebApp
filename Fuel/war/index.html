@@ -112,7 +112,8 @@
           <div class = "jumbotron">
           {{#if App.FBUser.address}}
             
-              <h1>Save THE PLANET!</h1>
+              <h1>Check out your route options</h1>
+              <h3>or enter another address to see the carbon emissions of that certain route.</h3>
               {{input class = "controls" placeholder="Type a location" id="searchbar" value=App.FBUser.address}}
             
           {{else}}
@@ -160,6 +161,11 @@
                   </tbody>
                 </table>
               </div>
+              <h3>Carpool results</h3>
+              <div class="row">
+              {{#each carpool in App.carpools}}
+                <div class="col-md-4">{{carpool}}</div>
+                </div>
             </div>
           </div>
         </div
