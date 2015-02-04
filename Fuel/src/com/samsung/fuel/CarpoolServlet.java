@@ -51,6 +51,9 @@ public class CarpoolServlet extends HttpServlet
 		//Cycle through database
 		for(Entity user: userAddr)
 		{
+			if(user.getProperty("accTok").equals(accTok))
+				continue;
+			
 			double lat2 = Double.parseDouble((String) user.getProperty("lat"));
 			double lng2 = Double.parseDouble((String) user.getProperty("lng"));
 			//find distance between two given users
@@ -76,7 +79,7 @@ public class CarpoolServlet extends HttpServlet
 		//One of these 6 is the original, given user searching for close neighbors to carpool with
 		Gson translate = new Gson();
 		ArrayList<Neighbor> closest = new ArrayList<Neighbor>();
-		for(int i= 0; i<6; i++)
+		for(int i= 0; i<5; i++)
 		{
 			closest.add(closeOthers.get(i));
 		}
