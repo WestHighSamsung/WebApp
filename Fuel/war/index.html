@@ -161,11 +161,6 @@
                   </tbody>
                 </table>
               </div>
-              <h3>Carpool results</h3>
-              <div class="row">
-              {{#each carpool in App.carpools}}
-                <div class="col-md-4">{{carpool}}</div>
-                </div>
             </div>
           </div>
         </div
@@ -176,21 +171,21 @@
       <div class="grey">
         <div class="container">
           <div class="row">
-          <div class="col-lg-6 col-lg-offset-3 centered">
-          <h3>CARPOOL</h3>
-          <hr>
-          <p>CARPOOL TEXT HERE ENRIQUE IF U DONT GIVE ME A TWO SENTENCES I WILL QUIT THE TEAM.</p>
+            <div class="col-lg-6 col-lg-offset-3 centered">
+              <h3>CARPOOL</h3>
+              <hr>
+              <p>CARPOOL TEXT HERE ENRIQUE IF U DONT GIVE ME A TWO SENTENCES I WILL QUIT THE TEAM.</p>
+            </div>
           </div>
           <div class = "row">
-          {{#each user in App.closest}}
-            <div class = "col-md-4">
-            <h4>Name: {{user.given.propertyMap.name}}</h4>
-            <p>{{user.distance}}  miles</p>
-            </div>
-          {{/each}}  
+            {{#each user in App.closest}}
+              <div class = "col-md-4">
+              <h4>Name: {{user.given.propertyMap.name}}</h4>
+              <p>{{user.sdist}}  miles</p>
+              </div>
+            {{/each}}  
           </div>
-          </div>
-        </div
+        </div>
       </div>
     </script>
 

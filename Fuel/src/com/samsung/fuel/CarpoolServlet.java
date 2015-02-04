@@ -1,5 +1,6 @@
 package com.samsung.fuel;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,6 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 
@@ -65,7 +65,7 @@ public class CarpoolServlet extends HttpServlet
 			double lat2 = Float.parseFloat((String) user.getProperty("lat"));
 			double lng2 = Float.parseFloat((String) user.getProperty("lng"));
 			//find distance between two given users
-			double distance = Math.sqrt(Math.pow(lat2-lat1,2) + Math.pow(lng2-lng1, 2));
+			double distance = Math.sqrt(Math.pow(lat2-lat1,2) + Math.pow(lng2-lng1, 2))*69.0;
 			
 			//Place in order into a new list
 			if(closeOthers.size()==0)
@@ -79,7 +79,7 @@ public class CarpoolServlet extends HttpServlet
 						break;
 					index++;
 				}
-				closeOthers.add(index, new Neighbor(user, distance*69.0));
+				closeOthers.add(index, new Neighbor(user, distance));
 			}
 		}
 		for(Neighbor a: closeOthers)
@@ -108,10 +108,15 @@ public class CarpoolServlet extends HttpServlet
 	{
 		public Entity given;
 		public double distance;
+		public String sdist;
 		public Neighbor(Entity e, double dist)
 		{
 			given = e;
 			distance = dist;
+
+			
+			DecimalFormat df = new DecimalFormat("#.##");
+			sdist = df.format(distance);
 		}
 	}
 }
