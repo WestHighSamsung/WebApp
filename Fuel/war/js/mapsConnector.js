@@ -144,6 +144,7 @@ function displayMap(map, route, directionsDisplay) {
   directionsDisplay.setMap(map);  
   directionsDisplay.setDirections(route); 
 }
+
 //function returns the recommended method/s of transportation
 function recommendTransType(place) {
   var recommendedTypes = new Array();

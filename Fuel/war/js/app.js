@@ -142,6 +142,38 @@ App.IndexCarbonRoute = Ember.Route.extend({
     }
   }
 });
+App.IndexCarpoolRoute = Ember.Route.extend({
+  model: function(){
+
+    var user = App.get('FBUser');
+    if (user != undefined)
+    {
+      $.getJSON("http://localhost:8888/api/carpool", {
+        "userID": user.id 
+      },
+      function(resp){
+        App.set('closest', resp);
+        console.log(resp);
+      });
+    }
+
+    // if(RouteClass.hasRoutes){
+    //   var results = [];
+    //   var routes = RouteClass.routes;
+    //   var transTypes = RouteClass.transTypes;
+    //   console.log("lol");
+    //   for(i = 0; i < transTypes.length; i++)
+    //       results.push({
+    //         color: "color: " + colors[i] + ";",
+    //         trans: transTypes[i],
+    //         distance:routes[transTypes[i]].strings[0],
+    //         duration:routes[transTypes[i]].strings[1],
+    //         emissions: routes[transTypes[i]].strings[2]
+    //       });
+    //   return {maps: results};
+    // }
+  }
+});
 //   model: function(){
 //     var container = $("#table-data");
 //     var output = "";

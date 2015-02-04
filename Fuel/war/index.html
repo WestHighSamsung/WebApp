@@ -175,6 +175,9 @@
 
     <!-- Put all carpool stuff here -->
     <script type="text/x-handlebars" id="index/carpool">
+    {{#each closest}}
+      <p>{{given.name}}<p>
+    {{/each}}
     </script>
 
     <script type="text/x-handlebars" id="login">
