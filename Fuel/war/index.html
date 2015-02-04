@@ -164,16 +164,49 @@
           </div>
         </div
       </div>
-      {{outlet}}
+      <br/>
+
+
+      <div class="grey">
+        <div class="container">
+          <div class="row">
+          <div class="col-lg-6 col-lg-offset-3 centered">
+          <h3>CARPOOL</h3>
+          <hr>
+          <p>CARPOOL TEXT HERE ENRIQUE IF U DONT GIVE ME A TWO SENTENCES I WILL QUIT THE TEAM.</p>
+            </div>
+            <div class="col-lg-8 col-lg-offset-2 centered">
+
+              <div class = "table-responsive">
+                <table class = "table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>Emissions</th>
+                      <th>Distance</th>
+                      <th>Duration</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each user in App.closest}}
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{map.duration}}</td>
+                      </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div
+      </div>
     </script>
 
 
 
-
-
-    <!-- Put all carpool stuff here -->
-    <script type="text/x-handlebars" id="index/carpool">
-    </script>
 
     <script type="text/x-handlebars" id="login">
     <div id="ww">
