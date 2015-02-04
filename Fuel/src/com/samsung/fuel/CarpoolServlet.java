@@ -48,7 +48,6 @@ public class CarpoolServlet extends HttpServlet
 		
 		//Query into database
 		Query q = new Query(enType);
-		q.addProjection(new PropertyProjection("address", String.class));
 		List<Entity> userAddr = datastore.prepare(q).asList(FetchOptions.Builder.withDefaults());
 		ArrayList<Neighbor> closeOthers = new ArrayList<Neighbor>();
 		Gson sus = new Gson();
@@ -92,7 +91,7 @@ public class CarpoolServlet extends HttpServlet
 		//One of these 6 is the original, given user searching for close neighbors to carpool with
 		Gson translate = new Gson();
 		ArrayList<Neighbor> closest = new ArrayList<Neighbor>();
-		for(int i= 0; i<5; i++)
+		for(int i= 0; i< (closeOthers.size() >= 5 ? 5 : closeOthers.size()); i++)
 		{
 			closest.add(closeOthers.get(i));
 		}
