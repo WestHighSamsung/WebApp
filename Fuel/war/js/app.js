@@ -1,5 +1,9 @@
 App = window.App = Ember.Application.createWithMixins(Em.Facebook);
-App.set('appId', '1536032630009134');
+
+//TEST = 1541100399502357
+//LIVE = 1536032630009134
+
+App.set('appId', '1541100399502357');
 App.set('title', 'West Connect');
 Ember.ENV.RAISE_ON_DEPRECATION = false;
 Ember.LOG_STACKTRACE_ON_DEPRECATION = false;
@@ -151,7 +155,7 @@ App.LoginRegisterRoute = Ember.Route.extend({
 
 $.fn.scrollView = function () {
     return this.each(function () {
-        $('html, body').animate({
+        $('body').animate({
             scrollTop: $(this).offset().top
         }, 1000);
     });

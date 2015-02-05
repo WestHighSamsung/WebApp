@@ -60,6 +60,17 @@ public class CarpoolServlet extends HttpServlet
 				continue;
 			if(user.getProperty("userID").equals(accTok))
 				continue;
+			if(user.getProperty("address") == null)
+				continue;
+			if(user.getProperty("lat") == null)
+				continue;
+			if( user.getProperty("lng") == null)
+				continue;
+			if(user.getProperty("isCarpool") == null)
+				continue;
+			
+			if(((Boolean)user.getProperty("isCarpool")) == false)
+				continue;
 			
 			System.out.println(user.getProperty("lat"));
 			double lat2 = Float.parseFloat((String) user.getProperty("lat"));

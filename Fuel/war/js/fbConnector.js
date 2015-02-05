@@ -57,7 +57,8 @@
       },
       fbLogout: function(){
         FB.logout();
-        this.set('FBUser', false);
+        this.set('FBUser', undefined);
+        this.set('closest', undefined);
       },
       updateFBUser: function(response) {
         var _this = this;
