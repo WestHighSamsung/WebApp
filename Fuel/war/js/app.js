@@ -124,11 +124,11 @@ App.LoginRegisterRoute = Ember.Route.extend({
   },
   transChange: function(){
     console.log("asd");
-    if(App.get('trans') == "3")
+    if(App.get('TransType') == "3")
       App.set('isDriving', true);
     else
       App.set('isDriving', undefined);
-  }.on('App.trans'),
+  }.observes('App.TransType'),
   actions:{
     doRegister: function(){
       //VALIDATE FIELDS
@@ -147,6 +147,8 @@ App.LoginRegisterRoute = Ember.Route.extend({
         console.log("uinvalid fields");
         return;
       }
+        if($("#error").is(':visible'))
+          $("#error").slideToggle(500);
 
       App.set('registration', false);
       var _this = this;
@@ -256,7 +258,6 @@ Ember.RadioButton = Ember.View.extend({
         this.set("selection", this.$().val())
     },
     checked : function() {
-        console.log(this.get("value"));
         return this.get("value") == this.get("selection");   
     }.property(),
 
