@@ -69,7 +69,7 @@ public class CarpoolServlet extends HttpServlet
 			if(user.getProperty("isCarpool") == null)
 				continue;
 			
-			if(((Boolean)user.getProperty("isCarpool")) == false)
+			if(!((String)user.getProperty("isCarpool")).equals("1"))
 				continue;
 			
 			System.out.println(user.getProperty("lat"));
