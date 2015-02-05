@@ -120,12 +120,13 @@ public class CarpoolServlet extends HttpServlet
 		public Entity given;
 		public double distance;
 		public String sdist;
+		public String email;
 		public Neighbor(Entity e, double dist)
 		{
 			given = e;
 			distance = dist;
 
-			
+			email = (String) e.getProperty("email");
 			DecimalFormat df = new DecimalFormat("##.##");
 			sdist = df.format(distance);
 		}
