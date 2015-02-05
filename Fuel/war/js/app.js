@@ -43,7 +43,7 @@ App.IndexRoute = Ember.Route.extend({
     }
     else{
       var user = App.get('FBUser');
-      $.getJSON("http://localhost:8888/api/carpool", {
+      $.getJSON("/api/carpool", {
         "userID": user.id 
       },
       function(resp){
@@ -80,7 +80,7 @@ App.LoginRoute = Ember.Route.extend({
       });
       //Connect to server
       console.log("help");
-      return App.$.getJSON("http://localhost:8888/api/login",
+      return App.$.getJSON("/api/login",
       {
         name: user.name,
         userID: user.id,
@@ -138,7 +138,7 @@ App.LoginRegisterRoute = Ember.Route.extend({
       console.log(address);
       var user = App.get('FBUser');
       user.set('address', address);
-      $.getJSON("http://localhost:8888/api/update",
+      $.getJSON("/api/update",
       {
         "userID": user.id,
         "address": address,
