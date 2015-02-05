@@ -69,6 +69,7 @@ public class CarpoolServlet extends HttpServlet
 			if(user.getProperty("isCarpool") == null)
 				continue;
 			
+			//This better work.
 			if(!((String)user.getProperty("isCarpool")).equals("1"))
 				continue;
 			
@@ -121,10 +122,12 @@ public class CarpoolServlet extends HttpServlet
 		public double distance;
 		public String sdist;
 		public String email;
+		public String picture;
 		public Neighbor(Entity e, double dist)
 		{
 			given = e;
 			distance = dist;
+			picture = "http://graph.facebook.com/v2.2/"+e.getProperty("userID")+"/picture";
 
 			email = (String) e.getProperty("email");
 			DecimalFormat df = new DecimalFormat("##.##");

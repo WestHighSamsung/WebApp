@@ -63,7 +63,8 @@
         this.set('trans', undefined);
         this.set('isCarpool', undefined);
         this.set('isDriving', undefined);
-        this.set('registration', undefined)
+        this.set('registration', undefined);
+        this.set('TransType', undefined);
         this.transitionTo('login');
       },
       updateFBUser: function(response) {

@@ -3,7 +3,7 @@ App = window.App = Ember.Application.createWithMixins(Em.Facebook);
 //TEST = 1541100399502357
 //LIVE = 1536032630009134
 
-App.set('appId', '1541100399502357');
+App.set('appId', '1536032630009134');
 App.set('title', 'West Connect');
 Ember.ENV.RAISE_ON_DEPRECATION = false;
 Ember.LOG_STACKTRACE_ON_DEPRECATION = false;

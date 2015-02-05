@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet
 		String email = req.getParameter("email");
 		String address = "null", co2= "null", 
 				travelType= "null", route = "null", lat = "null", lng = "null";
-		boolean isCarpool = false;
+		String isCarpool = "null";
 
 		//Create key for entity object using type of entity and accountToken
 		Key k = KeyFactory.createKey(enType, userID);

@@ -60,7 +60,7 @@
                     {{else}}
                       {{#if App.FBUser}}
                           <li>
-                          <a {{action 'logout'}}><img {{bindAttr src="App.FBUser.picture" alt="App.FBUser.name"}} id="fbimg"/> {{App.FBUser.name}} <small>Logout</small> </a></li>
+                          <a {{action 'logout'}}><img {{bindAttr src="App.FBUser.picture" alt="App.FBUser.name"}} /> {{App.FBUser.name}} <small>Logout</small> </a></li>
                       {{else}}
                           {{#link-to 'login' tagName="li"}}
                             <a {{bind-attr href="view.href"}}>Login</a>
@@ -181,13 +181,13 @@
               <h3>CARPOOL</h3>
               <hr>
               <p>Carpooling helps reduce carbon emission, saves you gas money, and helps everyone get to school and work faster.
-The following list of names are six people who live closest to you that are interested in carpooling.</p>
+The following list of names are six people who live closest to you that are interested in carpooling. Contact them using their email and make a route!</p>
             </div>
           </div>
           <div class = "row">
             {{#each user in App.closest}}
               <div class = "col-md-4">
-              <h4>Name: {{user.given.propertyMap.name}}</h4>
+              <h4><img {{bindAttr src=user.picture alt="App.FBUser.name"}} id="fbimg"/>   {{user.given.propertyMap.name}}</h4>
               <p>
                 {{user.email}}<br/>
                 {{user.sdist}}  miles
