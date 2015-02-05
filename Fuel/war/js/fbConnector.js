@@ -59,6 +59,12 @@
         FB.logout();
         this.set('FBUser', undefined);
         this.set('closest', undefined);
+        this.set('maps', undefined);
+        this.set('trans', undefined);
+        this.set('isCarpool', undefined);
+        this.set('isDriving', undefined);
+        this.set('registration', undefined)
+        this.transitionTo('login');
       },
       updateFBUser: function(response) {
         var _this = this;

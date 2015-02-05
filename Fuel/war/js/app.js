@@ -38,7 +38,7 @@ App.IndexRoute = Ember.Route.extend({
   activate: function(){
     this._super();
     if(App.get('FBUser') == false || App.get('FBUser') == undefined || (App.get('FBUser') != undefined && App.get('FBUser').get('address') == undefined)){
-      this.transitionTo('login');
+        this.transitionTo('login');
       return;
     }
     else{
@@ -60,7 +60,7 @@ App.IndexRoute = Ember.Route.extend({
 //Registration and fun shti
 App.LoginRoute = Ember.Route.extend({
   beforeModel: function(transition){
-      if(App.get('FBUser') != undefined && App.get('FBUser') != false && App.get('FBUser').address != undefined){
+      if(App.get('FBUser') != undefined && App.get('FBUser') != false && App.get('FBUser').get('address') != undefined){
         transition.abort();
       }
       else
@@ -72,14 +72,9 @@ App.LoginRoute = Ember.Route.extend({
     if(App.get('FBUser') != false && App.get('FBUser') != undefined){
       var user = App.get('FBUser');
       var _this = this;
-      console.log({
-        "name": user.name,
-        "userID": user.id,
-        "accTok": user.accessToken,
-        "email": user.email
-      });
+
+
       //Connect to server
-      console.log("help");
       return App.$.getJSON("/api/login",
       {
         name: user.name,
@@ -89,10 +84,12 @@ App.LoginRoute = Ember.Route.extend({
       },
       function(resp){
         var val = resp.propertyMap;
-        if(val.address == "null"){
+
+        if(val.address == "null" || val.lat == "null" || val.lng == "null"){
           //Begin the registration
           _this.transitionTo("login.register");
           $("#white").scrollView();
+
         }
         else{
           user.set('address', resp.propertyMap.address);
@@ -113,19 +110,37 @@ App.LoginRoute = Ember.Route.extend({
 
 
 App.LoginRegisterRoute = Ember.Route.extend({
+  beforeModel: function(transition){
+    if(App.get('FBUser') == undefined){
+      transition.abort();
+      this.transitionTo('index');
+    }
+  },
   activate: function(){
     this._super();
+    setTimeout(function(){$("#white").scrollView();},200);
+    App.set('registration', true);
+
   },
+  transChange: function(){
+    console.log("asd");
+    if(App.get('trans') == "3")
+      App.set('isDriving', true);
+    else
+      App.set('isDriving', undefined);
+  }.on('App.trans'),
   actions:{
     doRegister: function(){
       //VALIDATE FIELDS
-      if($("#radr").val() == "" || App.get('isDriving') == undefined)
+      if($("#radr").val() == "" || App.get('TransType') == undefined || (App.get('isDriving') == true && App.get('isCarpool') == undefined))
       {
         var content = "ERROR<br/>";
         if($("#radr").val() == "")
           content+= "* Please enter an address.<br/>";
-        if(App.get('isDriving') == undefined)
-          content+= "* Please choose a transportation method.";
+        if(App.get('TransType') == undefined)
+          content+= "* Please choose a transportation method. <br/>";
+        if(App.get('isDriving') == true && App.get('isCarpool') == undefined)
+          content+= "* Please select if you would like to be added to the carpool database."
         $("#error").html('<div class="alert alert-danger" role="alert">'+content+'</div>')
         if(!$("#error").is(':visible'))
           $("#error").slideToggle(500);
@@ -133,18 +148,25 @@ App.LoginRegisterRoute = Ember.Route.extend({
         return;
       }
 
+      App.set('registration', false);
       var _this = this;
       var address = $("#radr").val();
       console.log(address);
       var user = App.get('FBUser');
       user.set('address', address);
-      $.getJSON("/api/update",
-      {
-        "userID": user.id,
-        "address": address,
-        "isCarpool":App.get('isCarpool'),
-        "travelType": App.get('isDriving')
-      },
+
+      var params =  {
+          "userID": user.id,
+          "address": address,
+          "travelType": App.get('TransType')
+        };
+
+      if(params.travelType === "3")
+        params.isCarpool = App.get('isCarpool');
+      else
+        params.isCarpool = "0";
+
+      $.getJSON("/api/update", params,
       function(resp){
         _this.transitionTo('index');
       });

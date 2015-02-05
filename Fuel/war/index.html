@@ -38,9 +38,15 @@
                   <a {{bind-attr href="view.href"}}>Home</a>
                 {{/link-to}}
               {{else}}
-                <li>
-                  {{#link-to 'login'}}Home{{/link-to}}
-                </li>
+                {{#if App.registration}}
+                  {{#link-to 'login.register' tagName="li"}}
+                      <a {{bind-attr href="view.href"}}>Home</a>
+                  {{/link-to}}
+                {{else}}
+                  <li>
+                    {{#link-to 'login'}}Home{{/link-to}}
+                  </li>
+                {{/if}}
               {{/if}}
                 {{#link-to 'about' tagName="li"}}
                   <a {{bind-attr href="view.href"}}>About</a>
@@ -174,14 +180,18 @@
             <div class="col-lg-6 col-lg-offset-3 centered">
               <h3>CARPOOL</h3>
               <hr>
-              <p>CARPOOL TEXT HERE ENRIQUE IF U DONT GIVE ME A TWO SENTENCES I WILL QUIT THE TEAM.</p>
+              <p>Carpooling helps reduce carbon emission, saves you gas money, and helps everyone get to school and work faster.
+The following list of names are six people who live closest to you that are interested in carpooling.</p>
             </div>
           </div>
           <div class = "row">
             {{#each user in App.closest}}
               <div class = "col-md-4">
               <h4>Name: {{user.given.propertyMap.name}}</h4>
-              <p>{{user.sdist}}  miles</p>
+              <p>
+                {{user.email}}<br/>
+                {{user.sdist}}  miles
+              </p>
               </div>
             {{/each}}  
           </div>
@@ -245,23 +255,23 @@
                 <label> How do you get to school? </label>
                 <div class="input-group input-group-lg">
                   <div class="radio">
-                    <label>{{view Ember.RadioButton name="trans" selectionBinding="App.isDriving" value="1"}}Walking</label>
+                    <label>{{view Ember.RadioButton name="trans" selectionBinding="App.TransType" value="1"}}Walking</label>
                   </div>
                   <div class="radio">
-                    <label>{{view Ember.RadioButton name="trans" selectionBinding="App.isDriving" value="2"}}Biking</label>
+                    <label>{{view Ember.RadioButton name="trans" selectionBinding="App.TransType" value="2"}}Biking</label>
                   </div>
                   <div class="radio">
-                    <label>{{view Ember.RadioButton name="trans" selectionBinding="App.isDriving" value="3"}}Driving</label>
+                    <label>{{view Ember.RadioButton name="trans" selectionBinding="App.TransType" value="3"}}Driving</label>
                   </div>
                   <div class="radio">
-                    <label>{{view Ember.RadioButton name="trans" selectionBinding="App.isDriving" value="4"}}Public Transit</label>
+                    <label>{{view Ember.RadioButton name="trans" selectionBinding="App.TransType" value="4"}}Public Transit</label>
                   </div>
                 </div>
                 {{#if App.isDriving}}
                 <label>Because you selected that you drive, are you willing to carpool?</label>
                 <div class="input-group input-group-lg">
-                  <label class="radio-inline">{{view Ember.RadioButton name="carpool" selectionBinding="App.isCarpool" value="true"}}Yes</label>
-                  <label class="radio-inline">{{view Ember.RadioButton name="carpool" selectionBinding="App.isCarpool" value=""}}No</label>
+                  <label class="radio-inline">{{view Ember.RadioButton name="carpool" selectionBinding="App.isCarpool" value="1"}}Yes</label>
+                  <label class="radio-inline">{{view Ember.RadioButton name="carpool" selectionBinding="App.isCarpool" value="0"}}No</label>
                   <br/>
                 </div>
                 {{/if}}
